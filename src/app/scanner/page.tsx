@@ -256,6 +256,7 @@ function ScannerClient() {
                 {/* Reset button */}
                 <button
                   onClick={() => { setCode(""); setSelectedCaseId(""); setResult(null); setSelectedFindingId(null); }}
+                  aria-label="Clear code editor content"
                   className="sm:self-end text-xs text-slate-500 hover:text-slate-300 font-mono transition-colors cursor-pointer py-1"
                 >
                   Clear Code
@@ -281,6 +282,7 @@ function ScannerClient() {
                 <button
                   onClick={runScan}
                   disabled={isScanning || !code.trim()}
+                  aria-label="Execute security scan"
                   className="inline-flex items-center justify-center px-5 py-2.5 text-xs font-semibold text-slate-950 bg-accent hover:bg-accent-hover disabled:bg-slate-800 disabled:text-slate-500 rounded-xl shadow-lg hover:shadow-accent/15 transition-all cursor-pointer disabled:cursor-not-allowed"
                 >
                   {isScanning ? (
