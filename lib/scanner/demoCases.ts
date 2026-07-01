@@ -1,6 +1,12 @@
+/**
+ * Represents a pre-coded vulnerable snippet case for demo purposes.
+ */
 export interface DemoCase {
+  /** The unique string key matching a scanner rule ID */
   id: string;
+  /** Human-readable display label for the dropdown list */
   name: string;
+  /** The source code templates in supported languages */
   languages: {
     javascript: string;
     typescript: string;
