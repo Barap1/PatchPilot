@@ -64,15 +64,15 @@ export async function POST(req: NextRequest) {
     let parsed;
     try {
       parsed = parseGitHubUrl(url.trim());
-    } catch (err: any) {
-      return NextResponse.json({ error: err.message || "Failed to parse GitHub URL." }, { status: 400 });
+    } catch (err: unknown) {
+      return NextResponse.json({ error: (err as Error).message || "Failed to parse GitHub URL." }, { status: 400 });
     }
 
     let language;
     try {
       language = inferLanguageFromExtension(parsed.path);
-    } catch (err: any) {
-      return NextResponse.json({ error: err.message }, { status: 400 });
+    } catch (err: unknown) {
+      return NextResponse.json({ error: (err as Error).message }, { status: 400 });
     }
 
     // Set up 5s timeout fetch
@@ -117,14 +117,14 @@ export async function POST(req: NextRequest) {
         code,
         sourceUrl: url
       });
-    } catch (fetchErr: any) {
+    } catch (fetchErr: unknown) {
       clearTimeout(timeoutId);
-      if (fetchErr.name === "AbortError") {
+      if (fetchErr && typeof fetchErr === "object" && "name" in fetchErr && fetchErr.name === "AbortError") {
         return NextResponse.json({ error: "Fetch request to GitHub timed out (5s limit)." }, { status: 504 });
       }
       throw fetchErr;
     }
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || "An unexpected error occurred." }, { status: 500 });
+  } catch (err: unknown) {
+    return NextResponse.json({ error: (err as Error).message || "An unexpected error occurred." }, { status: 500 });
   }
 }
