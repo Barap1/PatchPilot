@@ -163,7 +163,8 @@ function ScannerClient() {
     return result?.findings.filter(f => f.severity === sev).length || 0;
   };
 
-  // Custom Git diff renderer
+  // Custom Git-style unified diff renderer.
+  // Parses patch diff text and highlights removed lines in red and added lines in green.
   const renderDiff = (diff: string) => {
     const lines = diff.split("\n");
     return (
