@@ -149,7 +149,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Example Patch Preview Section */}
+        {/* Example Patch Preview Section - Code Diff Mockup */}
         <section className="border-t border-slate-900 py-20 bg-slate-900/10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
