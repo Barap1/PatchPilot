@@ -559,22 +559,27 @@ function ScannerClient() {
   const activeScore = activeScanResult?.score ?? null;
 
   return (
-    <div className="flex flex-col min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-accent selection:text-slate-950">
+    <div className="flex flex-col min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-accent selection:text-slate-950 relative overflow-hidden">
+      
+      {/* Decorative Glowing Background Orbs */}
+      <div className="absolute top-[-10%] left-[-20%] w-[50vw] h-[50vw] rounded-full bg-radial from-accent/5 to-transparent blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-radial from-blue-500/5 to-transparent blur-[120px] pointer-events-none" />
+
       {/* Header */}
-      <header className="border-b border-slate-900 bg-slate-950/80 backdrop-blur sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center space-x-3 cursor-pointer">
-            <div className="p-2 bg-accent/10 border border-accent/25 rounded-lg">
-              <svg className="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+      <header className="border-b border-white/5 bg-slate-950/40 backdrop-blur-xl sticky top-0 z-40 shadow-lg shadow-black/20">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+          <Link href="/" className="flex items-center space-x-3 cursor-pointer group">
+            <div className="p-1.5 bg-accent/15 border border-accent/20 rounded-lg group-hover:scale-105 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]">
+              <svg className="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
             </div>
-            <span className="font-mono text-lg font-bold tracking-tight text-white">
+            <span className="font-mono text-base font-bold tracking-tight text-white">
               Patch<span className="text-accent">Pilot</span>
             </span>
           </Link>
           <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2 text-xs font-mono bg-slate-900 border border-slate-800/80 px-3 py-1 rounded-full text-slate-400">
+            <div className="flex items-center space-x-2 text-[10px] font-mono bg-white/5 border border-white/5 px-3 py-1 rounded-full text-slate-400">
               <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
               <span>Local Engine Active</span>
             </div>
@@ -583,40 +588,40 @@ function ScannerClient() {
       </header>
 
       {/* Main Grid Workspace */}
-      <main className="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="flex-grow max-w-7xl w-full mx-auto px-6 py-12 relative z-10">
         <div className="grid lg:grid-cols-5 gap-8 items-start">
           
           {/* Left Panel: Code Inputs / Import Tabs (3 Columns) */}
-          <div className="lg:col-span-3 space-y-4">
+          <div className="lg:col-span-3 space-y-6">
             
             {/* Tabs Selector Navigation */}
-            <div className="flex border-b border-slate-900">
+            <div className="inline-flex p-1 bg-slate-950/60 border border-white/5 backdrop-blur-xl rounded-full shadow-lg shadow-black/20">
               <button
                 onClick={() => setActiveTab("editor")}
-                className={`px-4 py-2.5 font-mono text-xs font-bold transition-all border-b-2 cursor-pointer ${
+                className={`px-4 py-2 font-mono text-[10px] uppercase tracking-wider rounded-full transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] cursor-pointer ${
                   activeTab === "editor"
-                    ? "border-accent text-accent bg-accent/5"
-                    : "border-transparent text-slate-500 hover:text-slate-300"
+                    ? "bg-accent text-slate-950 font-bold shadow-md shadow-accent/10"
+                    : "text-slate-400 hover:text-white"
                 }`}
               >
                 Editor Snippet
               </button>
               <button
                 onClick={() => setActiveTab("github-file")}
-                className={`px-4 py-2.5 font-mono text-xs font-bold transition-all border-b-2 cursor-pointer ${
+                className={`px-4 py-2 font-mono text-[10px] uppercase tracking-wider rounded-full transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] cursor-pointer ${
                   activeTab === "github-file"
-                    ? "border-accent text-accent bg-accent/5"
-                    : "border-transparent text-slate-500 hover:text-slate-300"
+                    ? "bg-accent text-slate-950 font-bold shadow-md shadow-accent/10"
+                    : "text-slate-400 hover:text-white"
                 }`}
               >
                 GitHub File Loader
               </button>
               <button
                 onClick={() => setActiveTab("github-repo")}
-                className={`px-4 py-2.5 font-mono text-xs font-bold transition-all border-b-2 cursor-pointer ${
+                className={`px-4 py-2 font-mono text-[10px] uppercase tracking-wider rounded-full transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] cursor-pointer ${
                   activeTab === "github-repo"
-                    ? "border-accent text-accent bg-accent/5"
-                    : "border-transparent text-slate-500 hover:text-slate-300"
+                    ? "bg-accent text-slate-950 font-bold shadow-md shadow-accent/10"
+                    : "text-slate-400 hover:text-white"
                 }`}
               >
                 Repository Scanner
@@ -625,290 +630,298 @@ function ScannerClient() {
 
             {/* TAB CONTENT: Single File Editor Workspace */}
             {activeTab === "editor" && (
-              <div className="bg-slate-900/30 border border-slate-900 rounded-2xl p-4 backdrop-blur-sm space-y-4">
-                
-                {/* Selectors Row */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div className="flex flex-wrap items-center gap-3">
-                    {/* Language Selector */}
-                    <div className="flex flex-col">
-                      <label className="text-[10px] font-mono text-slate-500 uppercase tracking-wide mb-1">Language</label>
-                      <select
-                        value={language}
-                        onChange={(e) => handleLanguageChange(e.target.value)}
-                        aria-label="Select programming language"
-                        className="bg-slate-950 border border-slate-800 text-xs text-slate-200 rounded-lg px-3 py-1.5 outline-none focus:border-accent cursor-pointer"
-                      >
-                        {languages.map((l) => (
-                          <option key={l.value} value={l.value}>{l.label}</option>
-                        ))}
-                      </select>
+              <div className="rounded-[2rem] border border-white/5 bg-white/5 p-1.5 shadow-xl">
+                <div className="rounded-[calc(2rem-0.375rem)] bg-slate-950 border border-white/5 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] space-y-6">
+                  
+                  {/* Selectors Row */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="flex flex-wrap items-center gap-3">
+                      {/* Language Selector */}
+                      <div className="flex flex-col">
+                         <label className="text-[9px] font-mono text-slate-500 uppercase tracking-wider mb-1">Language</label>
+                        <select
+                          value={language}
+                          onChange={(e) => handleLanguageChange(e.target.value)}
+                          aria-label="Select programming language"
+                          className="bg-slate-900 border border-white/5 text-xs text-slate-200 rounded-lg px-3 py-1.5 outline-none focus:border-accent/40 cursor-pointer font-mono"
+                        >
+                          {languages.map((l) => (
+                            <option key={l.value} value={l.value}>{l.label}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      {/* Demo Case Selector */}
+                      <div className="flex flex-col">
+                         <label className="text-[9px] font-mono text-slate-500 uppercase tracking-wider mb-1">Load Demo Case</label>
+                        <select
+                          value={selectedCaseId}
+                          onChange={(e) => handleCaseChange(e.target.value)}
+                          aria-label="Select vulnerability demo case"
+                          className="bg-slate-900 border border-white/5 text-xs text-slate-200 rounded-lg px-3 py-1.5 outline-none focus:border-accent/40 cursor-pointer font-mono"
+                        >
+                          <option value="">-- Choose Vulnerability --</option>
+                          {demoCases.map((c) => (
+                            <option key={c.id} value={c.id}>{c.name}</option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
 
-                    {/* Demo Case Selector */}
-                    <div className="flex flex-col">
-                      <label className="text-[10px] font-mono text-slate-500 uppercase tracking-wide mb-1">Load Demo Case</label>
-                      <select
-                        value={selectedCaseId}
-                        onChange={(e) => handleCaseChange(e.target.value)}
-                        aria-label="Select vulnerability demo case"
-                        className="bg-slate-950 border border-slate-800 text-xs text-slate-200 rounded-lg px-3 py-1.5 outline-none focus:border-accent cursor-pointer"
-                      >
-                        <option value="">-- Choose Vulnerability --</option>
-                        {demoCases.map((c) => (
-                          <option key={c.id} value={c.id}>{c.name}</option>
-                        ))}
-                      </select>
-                    </div>
+                    {/* Clear button */}
+                    <button
+                      onClick={() => { setCode(""); setSelectedCaseId(""); setResult(null); setSelectedFindingId(null); setSourcePath(null); setAiExplanation(null); }}
+                      aria-label="Clear code editor content"
+                      className="sm:self-end text-[10px] text-slate-500 hover:text-slate-300 font-mono tracking-wider uppercase transition-colors cursor-pointer py-1"
+                    >
+                      Clear Editor
+                    </button>
                   </div>
 
-                  {/* Clear button */}
-                  <button
-                    onClick={() => { setCode(""); setSelectedCaseId(""); setResult(null); setSelectedFindingId(null); setSourcePath(null); setAiExplanation(null); }}
-                    aria-label="Clear code editor content"
-                    className="sm:self-end text-xs text-slate-500 hover:text-slate-300 font-mono transition-colors cursor-pointer py-1"
-                  >
-                    Clear Editor
-                  </button>
-                </div>
-
-                {/* Editor Textarea */}
-                <div className="relative">
-                  {sourcePath && (
-                    <div className="absolute top-2 left-2 z-10 text-[9px] font-mono text-slate-400 bg-slate-950/80 px-2 py-0.5 rounded border border-slate-800">
-                      File: {sourcePath}
-                    </div>
-                  )}
-                  <textarea
-                    value={code}
-                    onChange={(e) => { setCode(e.target.value); setSelectedCaseId(""); }}
-                    placeholder="// Paste your JavaScript, TypeScript, or Python code here..."
-                    className="font-mono text-xs text-slate-100 bg-slate-950 border border-slate-900 rounded-xl p-4 pt-8 w-full h-[520px] resize-none outline-none focus:border-accent/40 focus:ring-1 focus:ring-accent/20 transition-all leading-relaxed"
-                    spellCheck="false"
-                  />
-                </div>
-
-                {/* Bottom triggers */}
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] text-slate-500 font-mono">
-                    Deterministic static scanning runs locally in-memory.
-                  </span>
-                  <button
-                    onClick={runScan}
-                    disabled={isScanning || !code.trim()}
-                    aria-label="Execute security scan"
-                    className="inline-flex items-center justify-center px-5 py-2.5 text-xs font-semibold text-slate-950 bg-accent hover:bg-accent-hover disabled:bg-slate-800 disabled:text-slate-500 rounded-xl shadow-lg hover:shadow-accent/15 transition-all cursor-pointer disabled:cursor-not-allowed"
-                  >
-                    {isScanning ? (
-                      <>
-                        <div className="w-3.5 h-3.5 border-2 border-slate-950 border-t-transparent rounded-full animate-spin mr-2" />
-                        Analyzing...
-                      </>
-                    ) : (
-                      <>
-                        Run Scan
-                        <svg className="w-4 h-4 ml-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                        </svg>
-                      </>
+                  {/* Editor Textarea */}
+                  <div className="relative">
+                    {sourcePath && (
+                      <div className="absolute top-2.5 left-2.5 z-10 text-[9px] font-mono text-slate-400 bg-slate-900/90 px-2 py-0.5 rounded border border-white/5">
+                        File: {sourcePath}
+                      </div>
                     )}
-                  </button>
+                    <textarea
+                      value={code}
+                      onChange={(e) => { setCode(e.target.value); setSelectedCaseId(""); }}
+                      placeholder="// Paste your JavaScript, TypeScript, or Python code here..."
+                      className="font-mono text-xs text-slate-100 bg-slate-900/40 border border-white/5 rounded-2xl p-6 pt-10 w-full h-[520px] resize-none outline-none focus:border-accent/40 focus:ring-1 focus:ring-accent/20 transition-all leading-relaxed"
+                      spellCheck="false"
+                    />
+                  </div>
+
+                  {/* Bottom triggers */}
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] text-slate-500 font-mono">
+                      Deterministic static scanning runs locally in-memory.
+                    </span>
+                    <button
+                      onClick={runScan}
+                      disabled={isScanning || !code.trim()}
+                      aria-label="Execute security scan"
+                      className="inline-flex items-center justify-center pl-5 pr-1.5 py-1.5 text-xs font-mono uppercase tracking-wider text-slate-950 bg-accent hover:bg-emerald-400 disabled:bg-slate-900 disabled:text-slate-600 rounded-full font-bold transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] cursor-pointer disabled:cursor-not-allowed"
+                    >
+                      {isScanning ? (
+                        <>
+                          <div className="w-3.5 h-3.5 border-2 border-slate-950 border-t-transparent rounded-full animate-spin mr-2" />
+                          Analyzing...
+                        </>
+                      ) : (
+                        <>
+                          <span>Run Scan</span>
+                          <div className="w-6 h-6 rounded-full bg-slate-950/10 flex items-center justify-center ml-2">
+                            <svg className="w-3.5 h-3.5 text-slate-950" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                          </div>
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </div>
               </div>
             )}
 
             {/* TAB CONTENT: GitHub File Import */}
             {activeTab === "github-file" && (
-              <div className="bg-slate-900/30 border border-slate-900 rounded-2xl p-6 backdrop-blur-sm space-y-6">
-                <div>
-                  <h3 className="text-sm font-bold text-white mb-1">Import from Public GitHub File URL</h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Paste a public GitHub blob URL or raw file URL. Only JavaScript (.js, .jsx), TypeScript (.ts, .tsx), and Python (.py) files are supported.
-                  </p>
-                </div>
-
-                <form onSubmit={importGithubFile} className="space-y-4">
-                  <div className="flex flex-col space-y-1">
-                    <label className="text-[10px] font-mono text-slate-500 uppercase tracking-wide">GitHub File URL</label>
-                    <input
-                      type="url"
-                      value={githubFileUrl}
-                      onChange={(e) => setGithubFileUrl(e.target.value)}
-                      placeholder="https://github.com/owner/repo/blob/main/path/to/file.ts"
-                      className="bg-slate-950 border border-slate-900 text-xs text-slate-200 rounded-xl px-4 py-3 outline-none focus:border-accent/40 w-full font-mono placeholder:text-slate-700"
-                      required
-                    />
+              <div className="rounded-[2rem] border border-white/5 bg-white/5 p-1.5 shadow-xl">
+                <div className="rounded-[calc(2rem-0.375rem)] bg-slate-950 border border-white/5 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] space-y-6 text-left">
+                  <div>
+                    <h3 className="text-sm font-bold text-white mb-1">Import from Public GitHub File URL</h3>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Paste a public GitHub blob URL or raw file URL. Only JavaScript (.js, .jsx), TypeScript (.ts, .tsx), and Python (.py) files are supported.
+                    </p>
                   </div>
 
-                  <button
-                    type="submit"
-                    disabled={isFileLoading || !githubFileUrl.trim()}
-                    className="w-full inline-flex items-center justify-center px-4 py-2.5 text-xs font-semibold text-slate-950 bg-accent hover:bg-accent-hover disabled:bg-slate-800 disabled:text-slate-500 rounded-xl transition-all cursor-pointer disabled:cursor-not-allowed"
-                  >
-                    {isFileLoading ? (
-                      <>
-                        <div className="w-3.5 h-3.5 border-2 border-slate-950 border-t-transparent rounded-full animate-spin mr-2" />
-                        Downloading and Parsing...
-                      </>
-                    ) : (
-                      "Load into Editor"
-                    )}
-                  </button>
-                </form>
+                  <form onSubmit={importGithubFile} className="space-y-4">
+                    <div className="flex flex-col space-y-1">
+                      <label className="text-[9px] font-mono text-slate-500 uppercase tracking-wider">GitHub File URL</label>
+                      <input
+                        type="url"
+                        value={githubFileUrl}
+                        onChange={(e) => setGithubFileUrl(e.target.value)}
+                        placeholder="https://github.com/owner/repo/blob/main/path/to/file.ts"
+                        className="bg-slate-900 border border-white/5 text-xs text-slate-200 rounded-xl px-4 py-3 outline-none focus:border-accent/40 w-full font-mono placeholder:text-slate-700"
+                        required
+                      />
+                    </div>
 
-                <div className="p-4 rounded-xl border border-slate-900/60 bg-slate-950/20 space-y-2">
-                  <h4 className="text-[10px] font-mono text-slate-500 uppercase tracking-wide">Security Safety Labels</h4>
-                  <ul className="text-xs text-slate-400 space-y-1 list-disc pl-4 leading-relaxed">
-                    <li>Only public GitHub endpoints are contacted; no credentials or OAuth required.</li>
-                    <li>Fetches are strictly limited to raw files, timed out at 5s, and capped at 1MB to prevent buffer exhaustion.</li>
-                    <li>Downloaded code is loaded statically as text and is never executed inside the browser environment.</li>
-                  </ul>
+                    <button
+                      type="submit"
+                      disabled={isFileLoading || !githubFileUrl.trim()}
+                      className="w-full inline-flex items-center justify-center px-4 py-2.5 text-xs font-mono uppercase tracking-wider font-bold text-slate-950 bg-accent hover:bg-emerald-400 disabled:bg-slate-900 disabled:text-slate-600 rounded-full transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] cursor-pointer disabled:cursor-not-allowed"
+                    >
+                      {isFileLoading ? (
+                        <>
+                          <div className="w-3.5 h-3.5 border-2 border-slate-950 border-t-transparent rounded-full animate-spin mr-2" />
+                          Downloading and Parsing...
+                        </>
+                      ) : (
+                        "Load into Editor"
+                      )}
+                    </button>
+                  </form>
+
+                  <div className="p-4 rounded-xl border border-white/5 bg-slate-900/10 space-y-2">
+                    <h4 className="text-[9px] font-mono text-slate-500 uppercase tracking-wider">Security Safety Labels</h4>
+                    <ul className="text-xs text-slate-400 space-y-1.5 list-disc pl-4 leading-relaxed">
+                      <li>Only public GitHub endpoints are contacted; no credentials or OAuth required.</li>
+                      <li>Fetches are strictly limited to raw files, timed out at 5s, and capped at 1MB to prevent buffer exhaustion.</li>
+                      <li>Downloaded code is loaded statically as text and is never executed inside the browser environment.</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             )}
 
             {/* TAB CONTENT: Repository Scanning */}
             {activeTab === "github-repo" && (
-              <div className="bg-slate-900/30 border border-slate-900 rounded-2xl p-6 backdrop-blur-sm space-y-6">
-                <div>
-                  <h3 className="text-sm font-bold text-white mb-1">Public GitHub Codebase Analysis</h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Enter the URL of a public repository to scan all contained code scripts. Scans are capped at a maximum of 25 files to preserve API rate limits.
-                  </p>
-                </div>
-
-                <form onSubmit={runRepositoryScan} className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="md:col-span-2 flex flex-col space-y-1">
-                    <label className="text-[10px] font-mono text-slate-500 uppercase tracking-wide">Repository URL</label>
-                    <input
-                      type="url"
-                      value={githubRepoUrl}
-                      onChange={(e) => setGithubRepoUrl(e.target.value)}
-                      placeholder="https://github.com/owner/repo"
-                      className="bg-slate-950 border border-slate-900 text-xs text-slate-200 rounded-xl px-4 py-3 outline-none focus:border-accent/40 w-full font-mono placeholder:text-slate-700"
-                      required
-                    />
-                  </div>
-                  <div className="flex flex-col space-y-1">
-                    <label className="text-[10px] font-mono text-slate-500 uppercase tracking-wide">Branch</label>
-                    <input
-                      type="text"
-                      value={githubBranch}
-                      onChange={(e) => setGithubBranch(e.target.value)}
-                      placeholder="main"
-                      className="bg-slate-950 border border-slate-900 text-xs text-slate-200 rounded-xl px-4 py-3 outline-none focus:border-accent/40 w-full font-mono placeholder:text-slate-700"
-                    />
+              <div className="rounded-[2rem] border border-white/5 bg-white/5 p-1.5 shadow-xl">
+                <div className="rounded-[calc(2rem-0.375rem)] bg-slate-950 border border-white/5 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] space-y-6 text-left">
+                  <div>
+                    <h3 className="text-sm font-bold text-white mb-1">Public GitHub Codebase Analysis</h3>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Enter the URL of a public repository to scan all contained code scripts. Scans are capped at a maximum of 25 files to preserve API rate limits.
+                    </p>
                   </div>
 
-                  <button
-                    type="submit"
-                    disabled={isRepoScanning || !githubRepoUrl.trim()}
-                    className="md:col-span-3 w-full inline-flex items-center justify-center px-4 py-2.5 text-xs font-semibold text-slate-950 bg-accent hover:bg-accent-hover disabled:bg-slate-800 disabled:text-slate-500 rounded-xl transition-all cursor-pointer disabled:cursor-not-allowed"
-                  >
-                    {isRepoScanning ? (
-                      <>
-                        <div className="w-3.5 h-3.5 border-2 border-slate-950 border-t-transparent rounded-full animate-spin mr-2" />
-                        Scanning Codebase Files...
-                      </>
-                    ) : (
-                      "Run Repository Scan"
-                    )}
-                  </button>
-                </form>
-
-                {/* Repository Scanning Results */}
-                {repoResult && (
-                  <div className="space-y-4 border-t border-slate-900 pt-6">
-                    <div className="flex items-center justify-between">
-                      <h4 className="text-xs font-mono text-slate-500 uppercase tracking-wide">Scanned Files & Findings</h4>
-                      <span className="text-[10px] font-mono text-slate-500">Scanned: {repoResult.filesScanned} &bull; Skipped: {repoResult.filesSkipped}</span>
+                  <form onSubmit={runRepositoryScan} className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="md:col-span-2 flex flex-col space-y-1">
+                      <label className="text-[9px] font-mono text-slate-500 uppercase tracking-wider">Repository URL</label>
+                      <input
+                        type="url"
+                        value={githubRepoUrl}
+                        onChange={(e) => setGithubRepoUrl(e.target.value)}
+                        placeholder="https://github.com/owner/repo"
+                        className="bg-slate-900 border border-white/5 text-xs text-slate-200 rounded-xl px-4 py-3 outline-none focus:border-accent/40 w-full font-mono placeholder:text-slate-700"
+                        required
+                      />
+                    </div>
+                    <div className="flex flex-col space-y-1">
+                      <label className="text-[9px] font-mono text-slate-500 uppercase tracking-wider">Branch</label>
+                      <input
+                        type="text"
+                        value={githubBranch}
+                        onChange={(e) => setGithubBranch(e.target.value)}
+                        placeholder="main"
+                        className="bg-slate-900 border border-white/5 text-xs text-slate-200 rounded-xl px-4 py-3 outline-none focus:border-accent/40 w-full font-mono placeholder:text-slate-700"
+                      />
                     </div>
 
-                    <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1">
-                      {repoResult.results.length === 0 ? (
-                        <div className="text-center text-xs text-slate-500 p-4 border border-slate-900 rounded-xl bg-slate-950/20">
-                          No compatible scripting files detected to scan.
-                        </div>
+                    <button
+                      type="submit"
+                      disabled={isRepoScanning || !githubRepoUrl.trim()}
+                      className="md:col-span-3 w-full inline-flex items-center justify-center px-4 py-2.5 text-xs font-mono uppercase tracking-wider font-bold text-slate-950 bg-accent hover:bg-emerald-400 disabled:bg-slate-900 disabled:text-slate-600 rounded-full transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] cursor-pointer disabled:cursor-not-allowed"
+                    >
+                      {isRepoScanning ? (
+                        <>
+                          <div className="w-3.5 h-3.5 border-2 border-slate-950 border-t-transparent rounded-full animate-spin mr-2" />
+                           Scanning Codebase Files...
+                        </>
                       ) : (
-                        repoResult.results.map((fResult: RepoScanFileResult) => (
-                          <div key={fResult.path} className="border border-slate-900 rounded-xl bg-slate-950/20 overflow-hidden">
-                            <div
-                              onClick={() => setExpandedRepoFiles(prev => ({ ...prev, [fResult.path]: !prev[fResult.path] }))}
-                              className="px-4 py-3 bg-slate-900/30 flex items-center justify-between cursor-pointer hover:bg-slate-900/50"
-                            >
-                              <div className="flex items-center space-x-2">
-                                <span className="text-xs font-mono font-bold text-slate-200 break-all">{fResult.path}</span>
-                                <span className="text-[10px] font-mono text-slate-500 uppercase">({fResult.language})</span>
-                              </div>
-                              <div className="flex items-center space-x-3">
-                                <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded ${
-                                  fResult.findings.length > 0 ? "bg-red-500/10 text-red-400" : "bg-green-500/10 text-green-400"
-                                }`}>
-                                  {fResult.findings.length} findings
-                                </span>
-                                <button
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    loadRepoFileIntoEditor(fResult.path, fResult.language, fResult.findings);
-                                  }}
-                                  className="text-[10px] font-mono text-accent hover:underline cursor-pointer"
-                                >
-                                  Open in Editor
-                                </button>
-                              </div>
-                            </div>
+                        "Run Repository Scan"
+                      )}
+                    </button>
+                  </form>
 
-                            {expandedRepoFiles[fResult.path] && fResult.findings.length > 0 && (
-                              <div className="border-t border-slate-900 p-2 space-y-1.5 bg-slate-950/40">
-                                {fResult.findings.map((f: Finding) => (
-                                  <div
-                                    key={f.id}
-                                    onClick={() => setSelectedFindingId(`${f.id}:${fResult.path}`)}
-                                    className={`p-2.5 border rounded-lg cursor-pointer transition-all flex items-center justify-between text-xs ${
-                                      selectedFindingId === `${f.id}:${fResult.path}`
-                                        ? "bg-slate-900/60 border-slate-700/80"
-                                        : "border-transparent bg-transparent hover:border-slate-900 hover:bg-slate-900/20"
-                                    }`}
-                                  >
-                                    <div className="space-y-0.5">
-                                      <div className="font-bold text-slate-200">{f.title}</div>
-                                      <div className="text-[10px] text-slate-500 font-mono">Lines {f.lineStart}-{f.lineEnd}</div>
-                                    </div>
-                                    <span className="text-[9px] font-mono font-bold uppercase text-slate-400">{f.severity}</span>
-                                  </div>
-                                ))}
-                              </div>
-                            )}
+                  {/* Repository Scanning Results */}
+                  {repoResult && (
+                    <div className="space-y-4 border-t border-white/5 pt-6">
+                      <div className="flex items-center justify-between">
+                        <h4 className="text-xs font-mono text-slate-500 uppercase tracking-wide">Scanned Files & Findings</h4>
+                        <span className="text-[10px] font-mono text-slate-500">Scanned: {repoResult.filesScanned} &bull; Skipped: {repoResult.filesSkipped}</span>
+                      </div>
+
+                      <div className="space-y-2.5 max-h-[300px] overflow-y-auto pr-1">
+                        {repoResult.results.length === 0 ? (
+                          <div className="text-center text-xs text-slate-500 p-4 border border-white/5 rounded-xl bg-slate-950/20">
+                            No compatible scripting files detected to scan.
                           </div>
-                        ))
+                        ) : (
+                          repoResult.results.map((fResult: RepoScanFileResult) => (
+                            <div key={fResult.path} className="border border-white/5 rounded-xl bg-slate-900/10 overflow-hidden">
+                              <div
+                                onClick={() => setExpandedRepoFiles(prev => ({ ...prev, [fResult.path]: !prev[fResult.path] }))}
+                                className="px-4 py-3 bg-slate-900/30 flex items-center justify-between cursor-pointer hover:bg-slate-900/50"
+                              >
+                                <div className="flex items-center space-x-2">
+                                  <span className="text-xs font-mono font-bold text-slate-200 break-all">{fResult.path}</span>
+                                  <span className="text-[10px] font-mono text-slate-500 uppercase">({fResult.language})</span>
+                                </div>
+                                <div className="flex items-center space-x-3">
+                                  <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded ${
+                                    fResult.findings.length > 0 ? "bg-red-500/10 text-red-400" : "bg-green-500/10 text-green-400"
+                                  }`}>
+                                    {fResult.findings.length} findings
+                                  </span>
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      loadRepoFileIntoEditor(fResult.path, fResult.language, fResult.findings);
+                                    }}
+                                    className="text-[10px] font-mono text-accent hover:underline cursor-pointer"
+                                  >
+                                    Open in Editor
+                                  </button>
+                                </div>
+                              </div>
+
+                              {expandedRepoFiles[fResult.path] && fResult.findings.length > 0 && (
+                                <div className="border-t border-white/5 p-2 space-y-1.5 bg-slate-950/40">
+                                  {fResult.findings.map((f: Finding) => (
+                                    <div
+                                      key={f.id}
+                                      onClick={() => setSelectedFindingId(`${f.id}:${fResult.path}`)}
+                                      className={`p-2.5 border rounded-lg cursor-pointer transition-all flex items-center justify-between text-xs ${
+                                        selectedFindingId === `${f.id}:${fResult.path}`
+                                          ? "bg-slate-900/60 border-white/10"
+                                          : "border-transparent bg-transparent hover:border-white/5 hover:bg-slate-900/20"
+                                      }`}
+                                    >
+                                      <div className="space-y-0.5">
+                                        <div className="font-bold text-slate-200">{f.title}</div>
+                                        <div className="text-[10px] text-slate-500 font-mono">Lines {f.lineStart}-{f.lineEnd}</div>
+                                      </div>
+                                      <span className="text-[9px] font-mono font-bold uppercase text-slate-400">{f.severity}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          ))
+                        )}
+                      </div>
+
+                      {/* Collapsible Skipped Files list */}
+                      {repoResult.skipped && repoResult.skipped.length > 0 && (
+                        <details className="group border border-white/5 rounded-xl bg-slate-900/10">
+                          <summary className="px-4 py-2.5 text-xs font-mono font-bold text-slate-500 cursor-pointer hover:text-slate-300 select-none flex items-center justify-between">
+                            <span>Skipped/Excluded Files ({repoResult.skipped.length})</span>
+                            <span className="transition-transform group-open:rotate-180 font-mono text-[9px]">&darr;</span>
+                          </summary>
+                          <div className="px-4 pb-3 pt-1 border-t border-white/5 text-[10px] font-mono text-slate-500 max-h-[150px] overflow-y-auto space-y-1">
+                            {repoResult.skipped.map((skip: RepoScanSkippedFile, idx: number) => (
+                              <div key={idx} className="flex justify-between py-0.5 border-b border-white/5">
+                                <span className="truncate max-w-xs">{skip.path}</span>
+                                <span className="text-slate-600">{skip.reason}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </details>
                       )}
                     </div>
-
-                    {/* Collapsible Skipped Files list */}
-                    {repoResult.skipped && repoResult.skipped.length > 0 && (
-                      <details className="group border border-slate-900 rounded-xl bg-slate-950/20">
-                        <summary className="px-4 py-2.5 text-xs font-mono font-bold text-slate-500 cursor-pointer hover:text-slate-300 select-none flex items-center justify-between">
-                          <span>Skipped/Excluded Files ({repoResult.skipped.length})</span>
-                          <span className="transition-transform group-open:rotate-180 font-mono text-[9px]">&darr;</span>
-                        </summary>
-                        <div className="px-4 pb-3 pt-1 border-t border-slate-900 text-[10px] font-mono text-slate-500 max-h-[150px] overflow-y-auto space-y-1">
-                          {repoResult.skipped.map((skip: RepoScanSkippedFile, idx: number) => (
-                            <div key={idx} className="flex justify-between py-0.5 border-b border-slate-900/30">
-                              <span className="truncate max-w-xs">{skip.path}</span>
-                              <span className="text-slate-600">{skip.reason}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </details>
-                    )}
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             )}
-
+            
             {/* Success Banner */}
             {successMessage && (
-              <div className="p-3 bg-accent/10 border border-accent/20 rounded-xl text-accent text-xs font-mono flex items-center space-x-2 animate-fadeIn">
+              <div className="p-3.5 bg-accent/10 border border-accent/20 rounded-xl text-accent text-xs font-mono flex items-center space-x-2.5 animate-fadeIn">
                 <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -918,360 +931,357 @@ function ScannerClient() {
           </div>
 
           {/* Right Panel: Findings Details (2 Columns) */}
-          <div className="lg:col-span-2 space-y-4">
+          <div className="lg:col-span-2 space-y-6">
             
             {/* Empty State */}
             {!activeScanResult && !isScanning && !isRepoScanning && (
-              <div className="border border-slate-900 rounded-2xl p-8 bg-slate-900/10 text-center flex flex-col items-center justify-center min-h-[450px]">
-                <div className="p-4 bg-slate-900 rounded-full border border-slate-800 text-slate-500 mb-4">
-                  <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
+              <div className="rounded-[2rem] border border-white/5 bg-white/5 p-1.5 shadow-xl">
+                <div className="rounded-[calc(2rem-0.375rem)] bg-slate-950 border border-white/5 p-8 text-center flex flex-col items-center justify-center min-h-[450px]">
+                  <div className="p-4 bg-slate-900 rounded-full border border-white/5 text-slate-500 mb-4">
+                    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-sm font-bold text-white mb-2">Workspace Ready</h3>
+                  <p className="text-xs text-slate-500 max-w-xs leading-relaxed">
+                    Select a vulnerability case from the dropdown or paste your own script, then trigger <span className="font-mono text-slate-400">Run Scan</span> to inspect static patterns.
+                  </p>
                 </div>
-                <h3 className="text-sm font-bold text-white mb-2">Workspace Ready</h3>
-                <p className="text-xs text-slate-500 max-w-xs leading-relaxed">
-                  Select a vulnerability case from the dropdown or paste your own script, then trigger <span className="font-mono text-slate-400">Run Scan</span> to inspect static patterns.
-                </p>
               </div>
             )}
 
             {/* Loaders */}
             {(isScanning || isRepoScanning) && !activeScanResult && (
-              <div className="border border-slate-900 rounded-2xl p-8 bg-slate-900/10 text-center flex flex-col items-center justify-center min-h-[450px]">
-                <div className="w-10 h-10 border-2 border-slate-800 border-t-accent rounded-full animate-spin mb-4" />
-                <h3 className="text-sm font-bold text-white mb-2">Analyzing Patterns...</h3>
-                <p className="text-xs text-slate-500">Executing rules line-by-line in sandboxed workspace.</p>
+              <div className="rounded-[2rem] border border-white/5 bg-white/5 p-1.5 shadow-xl">
+                <div className="rounded-[calc(2rem-0.375rem)] bg-slate-950 border border-white/5 p-8 text-center flex flex-col items-center justify-center min-h-[450px]">
+                  <div className="w-10 h-10 border-2 border-slate-800 border-t-accent rounded-full animate-spin mb-4" />
+                  <h3 className="text-sm font-bold text-white mb-2">Analyzing Patterns...</h3>
+                  <p className="text-xs text-slate-500">Executing rules line-by-line in sandboxed workspace.</p>
+                </div>
               </div>
             )}
 
             {/* Scan Results Deck */}
             {activeScanResult && (
-              <div className="space-y-4">
-                
-                {/* Score & Counters Gauge */}
-                <div className="grid grid-cols-2 gap-4">
+              <div className="rounded-[2rem] border border-white/5 bg-white/5 p-1.5 shadow-xl">
+                <div className="rounded-[calc(2rem-0.375rem)] bg-slate-950 border border-white/5 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] space-y-6">
                   
-                  {/* Gauge */}
-                  <div className="border border-slate-900 rounded-2xl p-4 bg-slate-900/20 flex flex-col justify-between">
-                    <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wide">Security Score</span>
-                    <div className="my-3 flex items-baseline">
-                      <span className={`text-4xl font-extrabold font-mono ${
-                         activeScore! >= 90 ? "text-green-400" :
-                         activeScore! >= 70 ? "text-yellow-400" :
-                         activeScore! >= 50 ? "text-orange-400" :
-                         "text-red-500"
-                      }`}>
-                        {activeScore}
-                      </span>
-                      <span className="text-slate-500 text-xs font-mono ml-1">/100</span>
-                    </div>
-                    <span className={`text-[10px] font-semibold tracking-wider uppercase inline-flex items-center`}>
-                      <span className={`w-1.5 h-1.5 rounded-full mr-1.5 ${
-                        activeScore! >= 90 ? "bg-green-400" :
-                        activeScore! >= 70 ? "bg-yellow-400" :
-                        activeScore! >= 50 ? "bg-orange-400" :
-                        "bg-red-500"
-                      }`} />
-                      {activeScore! >= 90 ? "Secure" :
-                       activeScore! >= 70 ? "Warning" :
-                       activeScore! >= 50 ? "Vulnerable" :
-                       "High Risk"}
-                    </span>
-                  </div>
-
-                  {/* Counters */}
-                  <div className="border border-slate-900 rounded-2xl p-4 bg-slate-900/20 grid grid-cols-2 gap-2 text-center">
-                    <div className="p-1.5 border border-slate-950 bg-slate-950/40 rounded-lg">
-                      <div className="text-red-500 font-mono font-bold text-sm">{getSeverityCount("critical")}</div>
-                      <div className="text-[9px] text-slate-500 uppercase tracking-wide">Critical</div>
-                    </div>
-                    <div className="p-1.5 border border-slate-950 bg-slate-950/40 rounded-lg">
-                      <div className="text-orange-400 font-mono font-bold text-sm">{getSeverityCount("high")}</div>
-                      <div className="text-[9px] text-slate-500 uppercase tracking-wide">High</div>
-                    </div>
-                    <div className="p-1.5 border border-slate-950 bg-slate-950/40 rounded-lg">
-                      <div className="text-yellow-400 font-mono font-bold text-sm">{getSeverityCount("medium")}</div>
-                      <div className="text-[9px] text-slate-500 uppercase tracking-wide">Medium</div>
-                    </div>
-                    <div className="p-1.5 border border-slate-950 bg-slate-950/40 rounded-lg">
-                      <div className="text-blue-400 font-mono font-bold text-sm">{getSeverityCount("low")}</div>
-                      <div className="text-[9px] text-slate-500 uppercase tracking-wide">Low</div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Summary text */}
-                <div className="p-3 border border-slate-900 rounded-xl bg-slate-900/10 text-xs text-slate-400 font-mono leading-relaxed">
-                  {activeScanResult.summary}
-                </div>
-
-                {/* Report Exports Row */}
-                <div className="flex flex-wrap items-center gap-2">
-                  <button
-                    onClick={() => {
-                      const md = generateMarkdownReport(activeScanResult, repoResult?.repo, repoResult?.branch);
-                      handleCopyText(md, "Markdown report copied to clipboard!");
-                    }}
-                    className="px-3 py-1.5 border border-slate-800 hover:border-slate-700 bg-slate-900/40 text-[10px] font-mono rounded-lg text-slate-300 cursor-pointer"
-                  >
-                    Copy MD
-                  </button>
-                  <button
-                    onClick={() => {
-                      const md = generateMarkdownReport(activeScanResult, repoResult?.repo, repoResult?.branch);
-                      handleDownloadFile("patchpilot-security-report.md", md);
-                    }}
-                    className="px-3 py-1.5 border border-slate-800 hover:border-slate-700 bg-slate-900/40 text-[10px] font-mono rounded-lg text-slate-300 cursor-pointer"
-                  >
-                    Download MD
-                  </button>
-                  <button
-                    onClick={() => {
-                      const sarif = generateSarifReport(activeScanResult);
-                      handleCopyText(sarif, "SARIF report copied to clipboard!");
-                    }}
-                    className="px-3 py-1.5 border border-slate-800 hover:border-slate-700 bg-slate-900/40 text-[10px] font-mono rounded-lg text-slate-300 cursor-pointer"
-                  >
-                    Copy SARIF
-                  </button>
-                  <button
-                    onClick={() => {
-                      const sarif = generateSarifReport(activeScanResult);
-                      handleDownloadFile("patchpilot-sarif.json", sarif);
-                    }}
-                    className="px-3 py-1.5 border border-slate-800 hover:border-slate-700 bg-slate-900/40 text-[10px] font-mono rounded-lg text-slate-300 cursor-pointer"
-                  >
-                    Download SARIF
-                  </button>
-                  <button
-                    onClick={() => {
-                      handleCopyText(JSON.stringify(activeScanResult, null, 2), "Redacted JSON copied to clipboard!");
-                    }}
-                    className="px-3 py-1.5 border border-slate-800 hover:border-slate-700 bg-slate-900/40 text-[10px] font-mono rounded-lg text-slate-300 cursor-pointer"
-                  >
-                    Copy JSON
-                  </button>
-                </div>
-
-                {/* Editor Findings Deck List */}
-                {activeTab !== "github-repo" && (
-                  <>
-                    {activeScanResult.findings.length > 0 ? (
-                      <div className="space-y-2">
-                        <div className="text-[10px] font-mono text-slate-500 uppercase tracking-wide">Findings Detected ({activeScanResult.findings.length})</div>
-                        <div className="max-h-[220px] overflow-y-auto space-y-2 pr-1">
-                          {activeScanResult.findings.map((finding: Finding) => (
-                            <div
-                              key={finding.id}
-                              onClick={() => setSelectedFindingId(finding.id)}
-                              className={`p-3 border rounded-xl cursor-pointer transition-all flex items-start justify-between ${
-                                selectedFindingId === finding.id
-                                  ? "bg-slate-900/60 border-slate-700/80 shadow-md"
-                                  : "bg-slate-900/20 border-slate-900 hover:border-slate-800"
-                              }`}
-                            >
-                              <div className="space-y-1">
-                                <h4 className="text-xs font-bold text-white leading-snug">{finding.title}</h4>
-                                <div className="flex items-center space-x-2 text-[10px] font-mono text-slate-500">
-                                  <span>Lines {finding.lineStart}-{finding.lineEnd}</span>
-                                  <span>&bull;</span>
-                                  <span>{finding.category}</span>
-                                </div>
-                              </div>
-
-                              <span className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider ${
-                                finding.severity === "critical" ? "bg-red-500/10 text-red-400 border border-red-500/20" :
-                                finding.severity === "high" ? "bg-orange-500/10 text-orange-400 border border-orange-500/20" :
-                                finding.severity === "medium" ? "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20" :
-                                "bg-blue-500/10 text-blue-400 border border-blue-500/20"
-                              }`}>
-                                {finding.severity}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="border border-slate-900 rounded-2xl p-6 bg-slate-900/10 text-center">
-                        <svg className="w-6 h-6 text-accent mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <span className="text-xs text-slate-400 font-mono">All checks passed. Codebase secure!</span>
-                      </div>
-                    )}
-                  </>
-                )}
-
-                {/* Selected Finding Detail Board */}
-                {selectedFinding && (
-                  <div className="border border-slate-900 rounded-2xl p-5 bg-slate-900/40 space-y-4 backdrop-blur-sm animate-fadeIn">
+                  {/* Score & Counters Gauge */}
+                  <div className="grid grid-cols-2 gap-4">
                     
-                    {/* Header line */}
-                    <div className="flex items-center justify-between pb-3 border-b border-slate-900">
-                      <div>
-                        <h3 className="text-sm font-bold text-white">{selectedFinding.title}</h3>
-                        <div className="flex items-center space-x-2 text-[10px] font-mono text-slate-500 uppercase tracking-wide mt-0.5">
-                          <span>{selectedFinding.cwe}</span>
-                          <span>&bull;</span>
-                          <span>{selectedFinding.owasp}</span>
-                        </div>
+                    {/* Gauge */}
+                    <div className="border border-white/5 rounded-2xl p-4 bg-slate-900/40 flex flex-col justify-between text-left">
+                      <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wide">Security Score</span>
+                      <div className="my-3 flex items-baseline">
+                        <span className={`text-4xl font-extrabold font-mono ${
+                          activeScore! >= 90 ? "text-green-400" :
+                          activeScore! >= 70 ? "text-yellow-400" :
+                          activeScore! >= 50 ? "text-orange-400" :
+                          "text-red-500"
+                        }`}>
+                          {activeScore}
+                        </span>
+                        <span className="text-slate-500 text-xs font-mono ml-1">/100</span>
                       </div>
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
-                        selectedFinding.severity === "critical" ? "bg-red-500/10 text-red-400 border border-red-500/20" :
-                        selectedFinding.severity === "high" ? "bg-orange-500/10 text-orange-400 border border-orange-500/20" :
-                        selectedFinding.severity === "medium" ? "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20" :
-                        "bg-blue-500/10 text-blue-400 border border-blue-500/20"
-                      }`}>
-                        {selectedFinding.severity}
+                      <span className={`text-[10px] font-semibold tracking-wider uppercase inline-flex items-center`}>
+                        <span className={`w-1.5 h-1.5 rounded-full mr-1.5 ${
+                          activeScore! >= 90 ? "bg-green-400" :
+                          activeScore! >= 70 ? "bg-yellow-400" :
+                          activeScore! >= 50 ? "bg-orange-400" :
+                          "bg-red-500"
+                        }`} />
+                        {activeScore! >= 90 ? "Secure" :
+                         activeScore! >= 70 ? "Warning" :
+                         activeScore! >= 50 ? "Vulnerable" :
+                         "High Risk"}
                       </span>
                     </div>
 
-                    {/* Meta Indicators */}
-                    <div className="grid grid-cols-2 gap-2 text-[10px] font-mono bg-slate-950/40 p-2.5 rounded-lg border border-slate-900/60">
-                      <div><span className="text-slate-500">Confidence:</span> <span className="text-slate-300 font-bold capitalize">{selectedFinding.confidence}</span></div>
-                      <div><span className="text-slate-500">Line Range:</span> <span className="text-slate-300">{selectedFinding.lineStart}-{selectedFinding.lineEnd}</span></div>
-                      <div className="col-span-2"><span className="text-slate-500">Matched because:</span> <span className="text-slate-300 italic">{selectedFinding.matchedBecause}</span></div>
-                    </div>
-
-                    {/* Explanation */}
-                    <div className="space-y-1">
-                      <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wide block">Risk Explanation</span>
-                      <p className="text-xs text-slate-300 leading-relaxed">{selectedFinding.explanation}</p>
-                    </div>
-
-                    {/* Recommendation */}
-                    <div className="space-y-1">
-                      <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wide block">Remediation Suggestion</span>
-                      <p className="text-xs text-slate-300 leading-relaxed">{selectedFinding.recommendation}</p>
-                    </div>
-
-                    {/* Evidence */}
-                    <div className="space-y-1">
-                      <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wide block">Evidence (Redacted)</span>
-                      <pre className="font-mono text-xs text-red-300/80 bg-red-950/20 border border-red-900/35 rounded-lg p-3 overflow-x-auto leading-relaxed max-w-full">
-                        <code>{selectedFinding.evidence}</code>
-                      </pre>
-                    </div>
-
-                    {/* Patch Suggestion Diff */}
-                    <div className="space-y-2">
-                      <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wide block">Safer Patch Recommendation</span>
-                      {renderDiff(selectedFinding.patch.diff)}
-
-                      {/* Apply actions */}
-                      <div className="flex items-center gap-2 pt-2">
-                        {activeTab === "editor" && (
-                          <button
-                            onClick={() => applyFix(selectedFinding)}
-                            className="flex-1 inline-flex items-center justify-center px-4 py-2.5 text-xs font-semibold text-slate-950 bg-accent hover:bg-accent-hover rounded-lg transition-colors cursor-pointer"
-                          >
-                            <svg className="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                            </svg>
-                            Apply Fix to Editor
-                          </button>
-                        )}
-                        <button
-                          onClick={() => handleCopyText(selectedFinding.patch.after, "Safe replacement copied to clipboard!")}
-                          className="px-4 py-2.5 text-xs font-semibold text-slate-200 bg-slate-900 border border-slate-800 hover:bg-slate-800 rounded-lg transition-colors cursor-pointer flex-1"
-                          title="Copy safe replacement code segment"
-                        >
-                          Copy Safe Code
-                        </button>
+                    {/* Counters */}
+                    <div className="border border-white/5 rounded-2xl p-4 bg-slate-900/40 grid grid-cols-2 gap-2 text-center">
+                      <div className="p-1.5 border border-white/5 bg-slate-950/40 rounded-lg">
+                        <div className="text-red-500 font-mono font-bold text-sm">{getSeverityCount("critical")}</div>
+                        <div className="text-[9px] text-slate-500 uppercase tracking-wide">Critical</div>
+                      </div>
+                      <div className="p-1.5 border border-white/5 bg-slate-950/40 rounded-lg">
+                        <div className="text-orange-400 font-mono font-bold text-sm">{getSeverityCount("high")}</div>
+                        <div className="text-[9px] text-slate-500 uppercase tracking-wide">High</div>
+                      </div>
+                      <div className="p-1.5 border border-white/5 bg-slate-950/40 rounded-lg">
+                        <div className="text-yellow-400 font-mono font-bold text-sm">{getSeverityCount("medium")}</div>
+                        <div className="text-[9px] text-slate-500 uppercase tracking-wide">Medium</div>
+                      </div>
+                      <div className="p-1.5 border border-white/5 bg-slate-950/40 rounded-lg">
+                        <div className="text-blue-400 font-mono font-bold text-sm">{getSeverityCount("low")}</div>
+                        <div className="text-[9px] text-slate-500 uppercase tracking-wide">Low</div>
                       </div>
                     </div>
-
-                    {/* AI Explanation Accordion */}
-                    <div className="border-t border-slate-900 pt-4 space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wide block">AI Security Explainer Layer</span>
-                        {!aiExplanation && !isAiLoading && (
-                          <button
-                            onClick={() => fetchAiExplanation(selectedFinding)}
-                            className="text-[10px] font-mono text-accent hover:underline cursor-pointer"
-                          >
-                            Generate AI Explanation
-                          </button>
-                        )}
-                      </div>
-
-                      {isAiLoading && (
-                        <div className="p-3 border border-slate-900 rounded-xl bg-slate-950/20 text-center text-xs text-slate-500 font-mono flex items-center justify-center space-x-2">
-                          <div className="w-3.5 h-3.5 border-2 border-slate-500 border-t-transparent rounded-full animate-spin" />
-                          <span>Generating AI Security Briefing...</span>
-                        </div>
-                      )}
-
-                      {aiError && (
-                        <div className="p-3 border border-red-950/40 rounded-xl bg-red-950/10 text-xs text-red-400 font-mono">
-                          {aiError}
-                        </div>
-                      )}
-
-                      {aiExplanation && (
-                        <div className="space-y-3 bg-slate-950/40 border border-slate-900/60 p-4 rounded-xl text-xs space-y-3 leading-relaxed">
-                          <div>
-                            <span className="font-bold text-white block mb-0.5">Beginner Overview</span>
-                            <p className="text-slate-400">{aiExplanation.beginnerExplanation}</p>
-                          </div>
-                          <div>
-                            <span className="font-bold text-white block mb-0.5">Remediation Rationale</span>
-                            <p className="text-slate-400">{aiExplanation.secureFixExplanation}</p>
-                          </div>
-                          <div>
-                            <span className="font-bold text-white block mb-0.5">Interview-Style Answer</span>
-                            <p className="text-slate-400">{aiExplanation.interviewSummary}</p>
-                          </div>
-                          <div>
-                            <span className="font-bold text-white block mb-0.5">Caveats & Assumptions</span>
-                            <p className="text-slate-400">{aiExplanation.caveats}</p>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Rule Reference Documentation Section */}
-                    {doc && (
-                      <div className="border-t border-slate-900 pt-4">
-                        <div
-                          onClick={() => setIsDocExpanded(!isDocExpanded)}
-                          className="flex items-center justify-between text-xs font-mono font-bold text-slate-500 cursor-pointer hover:text-slate-300 select-none"
-                        >
-                          <span>Rule Reference Documentation</span>
-                          <span>{isDocExpanded ? "[-]" : "[+]"}</span>
-                        </div>
-                        
-                        {isDocExpanded && (
-                          <div className="mt-3 bg-slate-950/20 border border-slate-900/80 p-3.5 rounded-xl text-[11px] space-y-3 leading-relaxed text-slate-400">
-                            <div>
-                              <span className="text-slate-500 font-mono uppercase tracking-wide block text-[9px] mb-0.5">What it detects</span>
-                              <p>{doc.whatItDetects}</p>
-                            </div>
-                            <div>
-                              <span className="text-slate-500 font-mono uppercase tracking-wide block text-[9px] mb-0.5">Why it matters</span>
-                              <p>{doc.whyItMatters}</p>
-                            </div>
-                            <div>
-                              <span className="text-slate-500 font-mono uppercase tracking-wide block text-[9px] mb-0.5">Common False Positives</span>
-                              <p>{doc.commonFalsePositives}</p>
-                            </div>
-                            <div>
-                              <span className="text-slate-500 font-mono uppercase tracking-wide block text-[9px] mb-0.5">Safer Patterns</span>
-                              <p className="font-mono text-slate-300">{doc.saferPatterns}</p>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    )}
-
                   </div>
-                )}
 
+                  {/* Summary text */}
+                  <div className="p-3.5 border border-white/5 rounded-xl bg-slate-900/30 text-xs text-slate-400 font-mono leading-relaxed text-left">
+                    {activeScanResult.summary}
+                  </div>
+
+                  {/* Report Exports Row */}
+                  <div className="flex flex-wrap items-center gap-2">
+                    <button
+                      onClick={() => {
+                        const md = generateMarkdownReport(activeScanResult, repoResult?.repo, repoResult?.branch);
+                        handleCopyText(md, "Markdown report copied to clipboard!");
+                      }}
+                      className="px-3 py-1.5 border border-white/5 hover:border-white/10 hover:bg-slate-900/40 bg-transparent text-[10px] font-mono rounded-lg text-slate-300 cursor-pointer transition-colors"
+                    >
+                      Copy MD
+                    </button>
+                    <button
+                      onClick={() => {
+                        const md = generateMarkdownReport(activeScanResult, repoResult?.repo, repoResult?.branch);
+                        handleDownloadFile("patchpilot-security-report.md", md);
+                      }}
+                      className="px-3 py-1.5 border border-white/5 hover:border-white/10 hover:bg-slate-900/40 bg-transparent text-[10px] font-mono rounded-lg text-slate-300 cursor-pointer transition-colors"
+                    >
+                      Download MD
+                    </button>
+                    <button
+                      onClick={() => {
+                        const sarif = generateSarifReport(activeScanResult);
+                        handleCopyText(sarif, "SARIF report copied to clipboard!");
+                      }}
+                      className="px-3 py-1.5 border border-white/5 hover:border-white/10 hover:bg-slate-900/40 bg-transparent text-[10px] font-mono rounded-lg text-slate-300 cursor-pointer transition-colors"
+                    >
+                      Copy SARIF
+                    </button>
+                    <button
+                      onClick={() => {
+                        const sarif = generateSarifReport(activeScanResult);
+                        handleDownloadFile("patchpilot-sarif.json", sarif);
+                      }}
+                      className="px-3 py-1.5 border border-white/5 hover:border-white/10 hover:bg-slate-900/40 bg-transparent text-[10px] font-mono rounded-lg text-slate-300 cursor-pointer transition-colors"
+                    >
+                      Download SARIF
+                    </button>
+                  </div>
+
+                  {/* Editor Findings Deck List */}
+                  {activeTab !== "github-repo" && (
+                    <>
+                      {activeScanResult.findings.length > 0 ? (
+                        <div className="space-y-2 text-left">
+                          <div className="text-[9px] font-mono text-slate-500 uppercase tracking-wider">Findings Detected ({activeScanResult.findings.length})</div>
+                          <div className="max-h-[220px] overflow-y-auto space-y-2 pr-1">
+                            {activeScanResult.findings.map((finding: Finding) => (
+                              <div
+                                key={finding.id}
+                                onClick={() => setSelectedFindingId(finding.id)}
+                                className={`p-3 border rounded-xl cursor-pointer transition-all flex items-start justify-between ${
+                                  selectedFindingId === finding.id
+                                    ? "bg-slate-900/60 border-white/10 shadow-md"
+                                    : "bg-slate-900/20 border-white/5 hover:border-white/10"
+                                }`}
+                              >
+                                <div className="space-y-1">
+                                  <h4 className="text-xs font-bold text-white leading-snug">{finding.title}</h4>
+                                  <div className="flex items-center space-x-2 text-[10px] font-mono text-slate-500">
+                                    <span>Lines {finding.lineStart}-{finding.lineEnd}</span>
+                                    <span>&bull;</span>
+                                    <span>{finding.category}</span>
+                                  </div>
+                                </div>
+
+                                <span className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider ${
+                                  finding.severity === "critical" ? "bg-red-500/10 text-red-400 border border-red-500/20" :
+                                  finding.severity === "high" ? "bg-orange-500/10 text-orange-400 border border-orange-500/20" :
+                                  finding.severity === "medium" ? "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20" :
+                                  "bg-blue-500/10 text-blue-400 border border-blue-500/20"
+                                }`}>
+                                  {finding.severity}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="border border-white/5 rounded-2xl p-6 bg-slate-900/10 text-center">
+                          <svg className="w-6 h-6 text-accent mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          <span className="text-xs text-slate-400 font-mono">All checks passed. Codebase secure!</span>
+                        </div>
+                      )}
+                    </>
+                  )}
+
+                  {/* Selected Finding Detail Board */}
+                  {selectedFinding && (
+                    <div className="border border-white/5 rounded-2xl p-5 bg-slate-900/20 space-y-5 backdrop-blur-sm animate-fadeIn text-left">
+                      
+                      {/* Header line */}
+                      <div className="flex items-center justify-between pb-3 border-b border-white/5">
+                        <div>
+                          <h3 className="text-sm font-bold text-white">{selectedFinding.title}</h3>
+                          <div className="flex items-center space-x-2 text-[10px] font-mono text-slate-500 uppercase tracking-wide mt-0.5">
+                            <span>{selectedFinding.cwe}</span>
+                            <span>&bull;</span>
+                            <span>{selectedFinding.owasp}</span>
+                          </div>
+                        </div>
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                          selectedFinding.severity === "critical" ? "bg-red-500/10 text-red-400 border border-red-500/20" :
+                          selectedFinding.severity === "high" ? "bg-orange-500/10 text-orange-400 border border-orange-500/20" :
+                          selectedFinding.severity === "medium" ? "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20" :
+                          "bg-blue-500/10 text-blue-400 border border-blue-500/20"
+                        }`}>
+                          {selectedFinding.severity}
+                        </span>
+                      </div>
+
+                      {/* Meta Indicators */}
+                      <div className="grid grid-cols-2 gap-2 text-[10px] font-mono bg-slate-950/60 p-3 rounded-xl border border-white/5">
+                        <div><span className="text-slate-500">Confidence:</span> <span className="text-slate-300 font-bold capitalize">{selectedFinding.confidence}</span></div>
+                        <div><span className="text-slate-500">Line Range:</span> <span className="text-slate-300">{selectedFinding.lineStart}-{selectedFinding.lineEnd}</span></div>
+                        <div className="col-span-2"><span className="text-slate-500">Matched because:</span> <span className="text-slate-300 italic">{selectedFinding.matchedBecause}</span></div>
+                      </div>
+
+                      {/* Explanation */}
+                      <div className="space-y-1">
+                        <span className="text-[9px] font-mono text-slate-500 uppercase tracking-wider block">Risk Explanation</span>
+                        <p className="text-xs text-slate-300 leading-relaxed">{selectedFinding.explanation}</p>
+                      </div>
+
+                      {/* Recommendation */}
+                      <div className="space-y-1">
+                        <span className="text-[9px] font-mono text-slate-500 uppercase tracking-wider block">Remediation Suggestion</span>
+                        <p className="text-xs text-slate-300 leading-relaxed">{selectedFinding.recommendation}</p>
+                      </div>
+
+                      {/* Evidence */}
+                      <div className="space-y-1">
+                        <span className="text-[9px] font-mono text-slate-500 uppercase tracking-wider block">Evidence (Redacted)</span>
+                        <pre className="font-mono text-xs text-red-400 bg-red-950/10 border border-red-950/25 rounded-xl p-3.5 overflow-x-auto leading-relaxed max-w-full">
+                          <code>{selectedFinding.evidence}</code>
+                        </pre>
+                      </div>
+
+                      {/* Patch Suggestion Diff */}
+                      <div className="space-y-2">
+                        <span className="text-[9px] font-mono text-slate-500 uppercase tracking-wider block">Safer Patch Recommendation</span>
+                        {renderDiff(selectedFinding.patch.diff)}
+
+                        {/* Apply actions */}
+                        <div className="flex items-center gap-2 pt-2">
+                          {activeTab === "editor" && (
+                            <button
+                              onClick={() => applyFix(selectedFinding)}
+                              className="flex-1 inline-flex items-center justify-center px-4 py-2.5 text-xs font-semibold text-slate-950 bg-accent hover:bg-emerald-400 rounded-lg transition-colors cursor-pointer"
+                            >
+                              <svg className="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                              </svg>
+                              Apply Fix to Editor
+                            </button>
+                          )}
+                          <button
+                            onClick={() => handleCopyText(selectedFinding.patch.after, "Safe replacement copied to clipboard!")}
+                            className="px-4 py-2.5 text-xs font-semibold text-slate-200 bg-slate-900 border border-white/5 hover:bg-slate-800 rounded-lg transition-colors cursor-pointer flex-1"
+                            title="Copy safe replacement code segment"
+                          >
+                            Copy Safe Code
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* AI Explanation Accordion */}
+                      <div className="border-t border-white/5 pt-4 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[9px] font-mono text-slate-500 uppercase tracking-wider block">AI Security Explainer Layer</span>
+                          {!aiExplanation && !isAiLoading && (
+                            <button
+                              onClick={() => fetchAiExplanation(selectedFinding)}
+                              className="text-[10px] font-mono text-accent hover:underline cursor-pointer"
+                            >
+                              Generate AI Explanation
+                            </button>
+                          )}
+                        </div>
+
+                        {isAiLoading && (
+                          <div className="p-3 border border-white/5 rounded-xl bg-slate-950/20 text-center text-xs text-slate-500 font-mono flex items-center justify-center space-x-2">
+                            <div className="w-3.5 h-3.5 border-2 border-slate-500 border-t-transparent rounded-full animate-spin" />
+                            <span>Generating AI Security Briefing...</span>
+                          </div>
+                        )}
+
+                        {aiError && (
+                          <div className="p-3 border border-red-950/40 rounded-xl bg-red-950/10 text-xs text-red-400 font-mono">
+                            {aiError}
+                          </div>
+                        )}
+
+                        {aiExplanation && (
+                          <div className="bg-slate-950/60 border border-white/5 p-4.5 rounded-xl text-xs space-y-4.5 leading-relaxed">
+                            <div>
+                              <span className="font-bold text-white block mb-0.5">Beginner Overview</span>
+                              <p className="text-slate-400">{aiExplanation.beginnerExplanation}</p>
+                            </div>
+                            <div>
+                              <span className="font-bold text-white block mb-0.5">Remediation Rationale</span>
+                              <p className="text-slate-400">{aiExplanation.secureFixExplanation}</p>
+                            </div>
+                            <div>
+                              <span className="font-bold text-white block mb-0.5">Interview-Style Answer</span>
+                              <p className="text-slate-400">{aiExplanation.interviewSummary}</p>
+                            </div>
+                            <div>
+                              <span className="font-bold text-white block mb-0.5">Caveats & Assumptions</span>
+                              <p className="text-slate-400">{aiExplanation.caveats}</p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Rule Reference Documentation Section */}
+                      {doc && (
+                        <div className="border-t border-white/5 pt-4">
+                          <div
+                            onClick={() => setIsDocExpanded(!isDocExpanded)}
+                            className="flex items-center justify-between text-xs font-mono font-bold text-slate-500 cursor-pointer hover:text-slate-300 select-none"
+                          >
+                            <span>Rule Reference Documentation</span>
+                            <span>{isDocExpanded ? "[-]" : "[+]"}</span>
+                          </div>
+                          
+                          {isDocExpanded && (
+                            <div className="mt-3 bg-slate-950/60 border border-white/5 p-4 rounded-xl text-[11px] space-y-3.5 leading-relaxed text-slate-400">
+                              <div>
+                                <span className="text-slate-500 font-mono uppercase tracking-wide block text-[9px] mb-0.5">What it detects</span>
+                                <p>{doc.whatItDetects}</p>
+                              </div>
+                              <div>
+                                <span className="text-slate-500 font-mono uppercase tracking-wide block text-[9px] mb-0.5">Why it matters</span>
+                                <p>{doc.whyItMatters}</p>
+                              </div>
+                              <div>
+                                <span className="text-slate-500 font-mono uppercase tracking-wide block text-[9px] mb-0.5">Common False Positives</span>
+                                <p>{doc.commonFalsePositives}</p>
+                              </div>
+                              <div>
+                                <span className="text-slate-500 font-mono uppercase tracking-wide block text-[9px] mb-0.5">Safer Patterns</span>
+                                <p className="font-mono text-slate-300">{doc.saferPatterns}</p>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                </div>
               </div>
             )}
 
             {/* Static limitations footer tag */}
-            <div className="border border-slate-900/50 bg-slate-950/20 rounded-2xl p-4 text-[10px] font-mono text-slate-500 leading-relaxed">
+            <div className="border border-white/5 bg-slate-950/20 rounded-2xl p-5 text-[10px] font-mono text-slate-500 leading-relaxed text-left">
               <span className="text-slate-400 font-bold block mb-1">Scanner Warnings & Limitations:</span>
               PatchPilot is a focused static-pattern scanner, not a full compiler/AST SAST engine. Findings are deterministic and reproducible. Patch suggestions should be reviewed and approved before production use. All matching credentials and secrets are fully redacted in scanner outputs.
             </div>
