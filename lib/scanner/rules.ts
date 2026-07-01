@@ -1,10 +1,20 @@
+/**
+ * Represents a security vulnerability rule used by the static scanner.
+ */
 export interface Rule {
+  /** Unique string identifier for the rule */
   id: string;
+  /** Human-readable title of the rule */
   title: string;
+  /** Severity level rating of the rule findings */
   severity: "low" | "medium" | "high" | "critical";
+  /** Categorization label for grouping findings */
   category: string;
+  /** Detailed description of the risk associated with this rule */
   explanation: string;
+  /** Step-by-step guidance on how to fix the vulnerability */
   recommendation: string;
+  /** The regex patterns and patch builders for detecting this rule */
   patterns: Array<{
     regex: RegExp;
     generatePatch: (match: string, language: string) => { before: string; after: string; diff: string };
