@@ -212,21 +212,33 @@ export default function LandingPage() {
             <div className="grid md:grid-cols-3 gap-8">
               {[
                 {
-                  title: "Zero Data Leakage",
-                  desc: "We perform all scans locally inside the browser memory. Your proprietary source code never travels to a server or external LLM API."
+                  title: "100% Deterministic Engine",
+                  desc: "Static rules produce predictable, repeatable scan outcomes without hallucinations or API calls."
                 },
                 {
-                  title: "100% Deterministic",
-                  desc: "Static rules produce predictable, repeatable scan outcomes. No hallucinatory or erratic security findings."
+                  title: "Secret Redaction",
+                  desc: "Keys (like sk-proj-aB1c...REDACTED...s8T9u) are automatically redacted from evidence logs, reports, and UI diff views."
                 },
                 {
-                  title: "No Latency, No Cost",
-                  desc: "Immediate results. Free from network latency or LLM API usage bills, making it easy to run scans repeatedly on every keypress."
+                  title: "CWE & OWASP Mapped",
+                  desc: "Every detected vulnerability is mapped directly to standard designations like CWE-89, CWE-798, and OWASP Top 10 categories."
+                },
+                {
+                  title: "GitHub URL Import",
+                  desc: "Paste public GitHub file URLs to pull and audit single script files dynamically and infer languages automatically."
+                },
+                {
+                  title: "Codebase Repo Scanning",
+                  desc: "Perform recursive static analysis across whole repositories with aggregate score calculations and skipping summaries."
+                },
+                {
+                  title: "SARIF & Markdown Export",
+                  desc: "Generate and download developer-friendly Markdown summaries or standardized SARIF 2.1.0 scan outputs."
                 }
               ].map((item, idx) => (
-                <div key={idx} className="p-6 border border-slate-900 rounded-2xl bg-slate-900/10">
-                  <h3 className="text-lg font-bold text-white mb-3">{item.title}</h3>
-                  <p className="text-sm text-slate-400 leading-relaxed">{item.desc}</p>
+                <div key={idx} className="p-6 border border-slate-900 rounded-2xl bg-slate-900/10 hover:border-slate-800 transition-colors">
+                  <h3 className="text-md font-bold text-white mb-2 font-mono">{item.title}</h3>
+                  <p className="text-xs text-slate-400 leading-relaxed">{item.desc}</p>
                 </div>
               ))}
             </div>
