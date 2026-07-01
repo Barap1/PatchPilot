@@ -17,14 +17,20 @@ function ScannerClient() {
     { value: "python", label: "Python" }
   ];
 
-  // Component state
+  // The currently selected programming language for the scan
   const [language, setLanguage] = useState<string>("javascript");
+  // The current code text content inside the editor textarea
   const [code, setCode] = useState<string>("");
+  // The ID of the currently loaded demo case, if any
   const [selectedCaseId, setSelectedCaseId] = useState<string>("");
   
+  // The aggregated scan output result containing findings and score
   const [result, setResult] = useState<ScanResult | null>(null);
+  // Loader state while contacting the API scan endpoint
   const [isScanning, setIsScanning] = useState<boolean>(false);
+  // The ID of the currently selected vulnerability finding card
   const [selectedFindingId, setSelectedFindingId] = useState<string | null>(null);
+  // Success notification text banner message
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   // Load demo case from URL query or default
