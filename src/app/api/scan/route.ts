@@ -40,10 +40,10 @@ export async function POST(req: NextRequest) {
     // Invoke deterministic scanner coordinator
     const result = scanCode(code, normalizedLang);
     return NextResponse.json(result);
-  } catch (err: any) {
+  } catch (err: unknown) {
     // Return standard error payload in case of unhandled JSON parses or scanner engine exceptions
     return NextResponse.json(
-      { error: err.message || "An unexpected error occurred during code scanning." },
+      { error: (err as Error).message || "An unexpected error occurred during code scanning." },
       { status: 500 }
     );
   }
