@@ -89,13 +89,13 @@ function makeDiff(before: string, after: string): string {
  */
 export function scanCode(code: string, language: string): ScanResult {
   const findings: Finding[] = [];
-  const normalizedLang = language.toLowerCase();
+  const normalizedLang = language.toLowerCase() as "javascript" | "typescript" | "python";
   const seenFindings = new Set<string>();
 
   // Run through rules
   for (const rule of rules) {
     // Filter rules by target language
-    if (!rule.languages.includes(normalizedLang as any)) {
+    if (!rule.languages.includes(normalizedLang)) {
       continue;
     }
 
@@ -138,7 +138,7 @@ export function scanCode(code: string, language: string): ScanResult {
         const patchResult = pattern.generatePatch(matchText, normalizedLang);
         
         let before = patchResult.before;
-        let after = patchResult.after;
+        const after = patchResult.after;
         let replacementStart = match.index;
         let replacementEnd = match.index + matchText.length;
 
