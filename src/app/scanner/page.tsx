@@ -113,16 +113,18 @@ function ScannerClient() {
 
   // Replace vulnerable lines with safer patch suggestion
   const applyFix = (finding: Finding) => {
+    // Split the current editor code into individual lines
     const lines = code.split("\n");
-    // lines are 1-indexed. lineStart - 1 is index of the first line to replace.
+    // Extract the unchanged lines preceding the vulnerability
     const beforeLines = lines.slice(0, finding.lineStart - 1);
+    // Extract the unchanged lines following the vulnerability
     const afterLines = lines.slice(finding.lineEnd);
     
-    // Combine back
+    // Splice in the recommended patch replacement and join back with newlines
     const newCode = [...beforeLines, finding.patch.after, ...afterLines].join("\n");
     setCode(newCode);
 
-    // Re-run scan with corrected code
+    // Trigger an automatic background re-audit on the updated code
     setIsScanning(true);
     fetch("/api/scan", {
       method: "POST",
@@ -135,6 +137,7 @@ function ScannerClient() {
       .then((data: ScanResult) => {
         setResult(data);
         setSelectedFindingId(null);
+        // Display a success banner notifying the user that the code was patched
         setSuccessMessage("Safer patch successfully applied to editor!");
         setTimeout(() => setSuccessMessage(null), 4000);
       })
