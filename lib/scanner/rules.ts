@@ -26,8 +26,8 @@ export const rules: Rule[] = [
     recommendation: "Remove the hardcoded secret. Store it in environment variables (e.g., using process.env in Node.js or os.environ in Python) or use a dedicated secrets manager.",
     patterns: [
       {
-        // OpenAI/general sk- keys
-        regex: /sk-[a-zA-Z0-9]{20,}/g,
+        // OpenAI/general sk- keys (supporting hyphens)
+        regex: /sk-[a-zA-Z0-9-]{20,}/g,
         generatePatch: (match, lang) => {
           const isPy = lang === "python";
           const replacement = isPy ? "os.environ.get('API_KEY')" : "process.env.API_KEY";
@@ -52,12 +52,11 @@ export const rules: Rule[] = [
         }
       },
       {
-        // Assignment to secret/token/password
-        regex: /\b(secret|token|password|api_key|apikey|private_key)\b\s*[:=]\s*["']([^"'\r\n]{6,})["']/gi,
+        // Assignment to secret/token/password (supporting typescript type syntax)
+        regex: /\b(secret|token|password|api_key|apikey|private_key)\b(?:\s*:\s*[\w<>|[\]]+)?\s*[:=]\s*["']([^"'\r\n]{6,})["']/gi,
         generatePatch: (match, lang) => {
           const isPy = lang === "python";
-          // Try to extract variable name and quote type
-          const parts = match.match(/\b(secret|token|password|api_key|apikey|private_key)\b\s*[:=]/i);
+          const parts = match.match(/\b(secret|token|password|api_key|apikey|private_key)\b/i);
           const varName = parts ? parts[1] : "SECRET";
           const envName = varName.toUpperCase();
           const replacement = isPy 
@@ -200,8 +199,21 @@ export const rules: Rule[] = [
     recommendation: "Do not use origin: '*' with credentials: true. Instead, specify a whitelist of trusted domain origins or validate the request origin dynamically.",
     patterns: [
       {
-        // origin: '*' along with credentials: true
-        regex: /(?:origin\s*:\s*["']\*["'][\s\S]*?credentials\s*:\s*true|credentials\s*:\s*true[\s\S]*?origin\s*:\s*["']\*["'])/gi,
+        // origin: '*' along with credentials: true (supporting python '=' and spacing/ordering variations)
+        regex: /(?:origin[s]?|["']origin[s]?["'])\s*[:=]\s*["']\*["'][\s\S]{0,100}?(?:credential[s]?|supports_credentials)\s*[:=]\s*(?:true|True)/gi,
+        generatePatch: (match, lang) => {
+          const before = match;
+          const after = match.replace(/["']\*["']/i, "['https://trustedapp.com']");
+          return {
+            before,
+            after,
+            diff: makeDiff(before, after)
+          };
+        }
+      },
+      {
+        // Reverse order credentials first
+        regex: /(?:credential[s]?|supports_credentials)\s*[:=]\s*(?:true|True)[\s\S]{0,100}?(?:origin[s]?|["']origin[s]?["'])\s*[:=]\s*["']\*["']/gi,
         generatePatch: (match, lang) => {
           const before = match;
           const after = match.replace(/["']\*["']/i, "['https://trustedapp.com']");
@@ -223,11 +235,11 @@ export const rules: Rule[] = [
     recommendation: "Sanitize user inputs to remove path navigation sequences (e.g., '../'). Use path.basename() or resolve absolute paths and verify they reside within a secure base directory.",
     patterns: [
       {
-        // JS/TS readFile or createReadStream with req input
-        regex: /\b(?:readFile|readFileSync|createReadStream)\s*\(\s*[^)]*?(?:req\.(?:query|body|params)|params\.\w+)[^)]*?\)/gi,
+        // JS/TS readFile or createReadStream with dynamic parameters (variable names or request objects)
+        regex: /\b(?:readFile|readFileSync|createReadStream)\s*\(\s*([^)]*?(?:req\.|params\.|file\b|filename\b)[^)]*?)\)/gi,
         generatePatch: (match, lang) => {
           const before = match;
-          const after = "const safeName = path.basename(req.query.file);\nfs.readFileSync(path.join(SAFE_DIR, safeName))";
+          const after = "const safeName = path.basename(file);\nfs.readFileSync(path.join(SAFE_DIR, safeName))";
           return {
             before,
             after,
@@ -236,11 +248,11 @@ export const rules: Rule[] = [
         }
       },
       {
-        // Python open with request input
-        regex: /\bopen\s*\(\s*[^)]*?(?:request\.(?:args|form|GET|POST|FILES|json|match_info)|params\.\w+)[^)]*?\)/gi,
+        // Python open with dynamic parameters (variable names or request objects)
+        regex: /\bopen\s*\(\s*([^)]*?(?:request\.|params\.|file\b|filename\b)[^)]*?)\)/gi,
         generatePatch: (match, lang) => {
           const before = match;
-          const after = "safe_name = os.path.basename(request.args.get('filename'))\nwith open(os.path.join(SAFE_DIR, safe_name))";
+          const after = "safe_name = os.path.basename(filename)\nwith open(os.path.join(SAFE_DIR, safe_name))";
           return {
             before,
             after,
@@ -259,8 +271,8 @@ export const rules: Rule[] = [
     recommendation: "Use cryptographically secure random number generators (CSRNG) such as crypto.randomBytes() in Node.js or the 'secrets' module in Python.",
     patterns: [
       {
-        // JS Math.random used near keywords or in variable assignment
-        regex: /\b(?:token|session|password|reset|secret|key)\b[\w\s]*=[\w\s.]*?Math\.random\s*\(\s*\)/gi,
+        // JS Math.random used near keywords (supporting TS type annotation and nested parens/functions)
+        regex: /\b(?:token|session|password|reset|secret|key)\b[^=]*?=\s*[^=]*?\bMath\.random\s*\(\s*\)/gi,
         generatePatch: (match, lang) => {
           const before = match;
           const after = match.replace(/Math\.random\s*\(\s*\)\.toString\(\d*\)\.substring\(\d*\)/i, "crypto.randomBytes(32).toString('hex')")
@@ -273,11 +285,12 @@ export const rules: Rule[] = [
         }
       },
       {
-        // Python random used near keywords or in variable assignment
-        regex: /\b(?:token|session|password|reset|secret|key)\b[\w\s]*=[\w\s.]*?random\.(?:random|randint|choice)\b/gi,
+        // Python random used near keywords (supporting nested function calls)
+        regex: /\b(?:token|session|password|reset|secret|key)\b[^=]*?=\s*[^=]*?\brandom\.(?:random|randint|choice)\b/gi,
         generatePatch: (match, lang) => {
           const before = match;
-          const after = match.replace(/random\.(?:random|randint|choice)/i, "secrets.token_hex(16)");
+          const after = match.replace(/random\.(?:random|randint|choice)\s*\([^)]*\)/i, "secrets.token_hex(16)")
+                             .replace(/random\.(?:random|randint|choice)/i, "secrets.token_hex(16)");
           return {
             before,
             after: `# Import secrets first\n${after}`,
