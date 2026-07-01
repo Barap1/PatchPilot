@@ -90,14 +90,14 @@ Your response must be JSON only. Return exactly this JSON schema (do not write m
 
       const parsedContent = JSON.parse(content);
       return NextResponse.json(parsedContent);
-    } catch (apiErr: any) {
+    } catch (apiErr: unknown) {
       clearTimeout(timeoutId);
-      if (apiErr.name === "AbortError") {
+      if (apiErr && typeof apiErr === "object" && "name" in apiErr && apiErr.name === "AbortError") {
         return NextResponse.json({ error: "OpenAI request timed out." }, { status: 504 });
       }
       throw apiErr;
     }
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || "An unexpected error occurred during AI explanation." }, { status: 500 });
+  } catch (err: unknown) {
+    return NextResponse.json({ error: (err as Error).message || "An unexpected error occurred during AI explanation." }, { status: 500 });
   }
 }
