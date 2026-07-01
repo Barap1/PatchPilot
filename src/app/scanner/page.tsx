@@ -33,7 +33,8 @@ function ScannerClient() {
   // Success notification text banner message
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  // Load demo case from URL query or default
+  // Hydrates the workspace state from URL query parameters (e.g. ?case=sql-injection&lang=python) on mount.
+  // This allows the landing page CTAs to route directly into a pre-configured demo case.
   useEffect(() => {
     const caseParam = searchParams.get("case");
     const langParam = searchParams.get("lang");
