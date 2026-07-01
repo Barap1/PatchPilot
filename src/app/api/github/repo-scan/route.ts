@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
       }
       owner = parts[0];
       repo = parts[1].replace(/\.git$/, "");
-    } catch (err: any) {
+    } catch (_err: unknown) {
       return NextResponse.json({ error: "Invalid GitHub repository URL format." }, { status: 400 });
     }
 
@@ -92,9 +92,9 @@ export async function POST(req: NextRequest) {
         }
       });
       clearTimeout(treeTimeout);
-    } catch (err: any) {
+    } catch (err: unknown) {
       clearTimeout(treeTimeout);
-      if (err.name === "AbortError") {
+      if (err && typeof err === "object" && "name" in err && err.name === "AbortError") {
         return NextResponse.json({ error: "GitHub API request timed out (6s limit)." }, { status: 504 });
       }
       throw err;
@@ -186,9 +186,9 @@ export async function POST(req: NextRequest) {
           score: scanResult.score,
           findings: scanResult.findings
         };
-      } catch (err: any) {
+      } catch (err: unknown) {
         clearTimeout(fileTimeout);
-        return { path: file.path, error: err.message || "Failed to fetch file content." };
+        return { path: file.path, error: (err as Error).message || "Failed to fetch file content." };
       }
     });
 
@@ -247,7 +247,7 @@ export async function POST(req: NextRequest) {
       results,
       skipped: skippedFiles
     });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || "An unexpected error occurred during repository scanning." }, { status: 500 });
+  } catch (err: unknown) {
+    return NextResponse.json({ error: (err as Error).message || "An unexpected error occurred during repository scanning." }, { status: 500 });
   }
 }
