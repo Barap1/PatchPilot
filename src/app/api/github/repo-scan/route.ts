@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { scanCode } from "../../../../../lib/scanner/scan";
+import { scanCode, Finding } from "../../../../../lib/scanner/scan";
 
 export const dynamic = "force-dynamic";
 
@@ -156,8 +156,12 @@ export async function POST(req: NextRequest) {
     let mediumCount = 0;
     let lowCount = 0;
 
+    type RepoScanFileOrError = 
+      | { path: string; language: string; score: number; findings: Finding[] }
+      | { path: string; error: string };
+
     // Fetch and scan files concurrently (with safety limits)
-    const scanPromises = finalFilesToScan.map(async (file) => {
+    const scanPromises: Promise<RepoScanFileOrError>[] = finalFilesToScan.map(async (file) => {
       const fileLang = inferLanguageFromExtension(file.path)!;
       const rawFileUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${targetBranch}/${file.path}`;
       
