@@ -1,6 +1,6 @@
 # PatchPilot: AI-Assisted Code Security Scanner & Patches
 
-**PatchPilot** is a professional, deterministic static analysis scanner designed to catch common security risks in JavaScript, TypeScript, and Python code, explain the threats, and instantly build clean, git-style patch recommendations to fix them.
+**PatchPilot** is a professional, deterministic static analysis scanner designed to catch common security risks in JavaScript, TypeScript, and Python code, map them to CWE/OWASP standards, explain the threats, and instantly build clean, git-style patch recommendations to fix them.
 
 It runs entirely locally in your browser memory and API routes with zero external network request overhead—ensuring complete confidentiality for your intellectual property.
 
@@ -24,18 +24,18 @@ PatchPilot acts as an immediate **local security guardrail**. By checking code a
 
 ---
 
-## Vulnerabilities Detected
+## Vulnerabilities Detected & Mapped
 
 PatchPilot targets 8 core categories of common web vulnerabilities:
 
-1. **Hardcoded Secrets (Critical)**: Detects embedded OpenAI keys (`sk-`), AWS access key IDs (`AKIA`), and variable assignments matching credential labels.
-2. **SQL Injection (Critical)**: Catches string template interpolation and variable concatenation within SQL statement prefixes.
-3. **Command Injection (Critical)**: Flags usage of OS commands (like Node `exec` or Python `subprocess.run`) utilizing dynamic string concats.
-4. **Unsafe Eval (High)**: Restricts dynamic JS/Python compilation through `eval()` or `new Function()`.
-5. **Insecure CORS (High)**: Flags wildcard CORS headers (`*`) configured with credential permissions enabled.
-6. **Path Traversal (High)**: Catches direct dynamic file reads using request queries/body fields without clean validation.
-7. **Weak Token Generation (Medium)**: Identifies weak PRNGs (`Math.random()` or Python `random.random()`) used near token/reset keywords.
-8. **Sensitive Logging (Medium)**: Redacts log print outs outputting variable keywords containing tokens, passwords, or API keys.
+1. **Hardcoded Secrets (Critical)**: `CWE-798`, `A07:2021 Identification and Authentication Failures`. Detects embedded OpenAI keys (`sk-`), AWS access key IDs (`AKIA`), and variable assignments matching credential labels.
+2. **SQL Injection (Critical)**: `CWE-89`, `A03:2021 Injection`. Catches string template interpolation and variable concatenation within SQL statement prefixes.
+3. **Command Injection (Critical)**: `CWE-78`, `A03:2021 Injection`. Flags usage of OS commands (like Node `exec` or Python `subprocess.run`) utilizing dynamic string concats.
+4. **Unsafe Eval (High)**: `CWE-94`, `A03:2021 Injection`. Restricts dynamic JS/Python compilation through `eval()` or `new Function()`.
+5. **Insecure CORS (High)**: `CWE-942`, `A05:2021 Security Misconfiguration`. Flags wildcard CORS headers (`*`) configured with credential permissions enabled.
+6. **Path Traversal (High)**: `CWE-22`, `A01:2021 Broken Access Control`. Catches direct dynamic file reads using request queries/body fields without clean validation.
+7. **Weak Token Generation (Medium)**: `CWE-338`, `A02:2021 Cryptographic Failures`. Identifies weak PRNGs (`Math.random()` or Python `random.random()`) used near token/reset keywords.
+8. **Sensitive Logging (Medium)**: `CWE-532`, `A09:2021 Security Logging and Monitoring Failures`. Redacts log print outs outputting variable keywords containing tokens, passwords, or API keys.
 
 ---
 
@@ -47,7 +47,7 @@ PatchPilot targets 8 core categories of common web vulnerabilities:
 ```json
 {
   "language": "javascript",
-  "code": "const apiKey = \"sk-proj-aB1c2D3e4F5g6H7i8J9k0L1m2N3o4P5q6R7s8T9u\";\nconst client = new OpenAIClient({ apiKey: apiKey });"
+  "code": "const apiKey = \"sk-proj-aB1c...REDACTED...s8T9u\";\nconst client = new OpenAIClient({ apiKey: apiKey });"
 }
 ```
 
@@ -63,15 +63,21 @@ PatchPilot targets 8 core categories of common web vulnerabilities:
       "title": "Hardcoded Secret / API Key",
       "severity": "critical",
       "category": "Secrets Management",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021 Identification and Authentication Failures",
+      "confidence": "high",
       "lineStart": 2,
       "lineEnd": 2,
-      "evidence": "sk-proj-aB1c2D3e4F5g6H7i8J9k0L1m2N3o4P5q6R7s8T9u",
+      "evidence": "sk-proj-aB1c...REDACTED...s8T9u",
       "explanation": "Sensitive credentials such as API keys, tokens, or private keys are hardcoded in the source code...",
       "recommendation": "Remove the hardcoded secret. Store it in environment variables or use a dedicated secrets manager.",
       "patch": {
-        "before": "sk-proj-aB1c2D3e4F5g6H7i8J9k0L1m2N3o4P5q6R7s8T9u",
+        "replacementMode": "range",
+        "replacementStart": 15,
+        "replacementEnd": 52,
+        "before": "\"sk-proj-aB1c...REDACTED...s8T9u\"",
         "after": "process.env.API_KEY",
-        "diff": "@@ -1,1 +1,1 @@\n-sk-proj-aB1c2D3e4F5g6H7i8J9k0L1m2N3o4P5q6R7s8T9u\n+process.env.API_KEY"
+        "diff": "@@ -1,1 +1,1 @@\n-\"sk-proj-aB1c...REDACTED...s8T9u\"\n+process.env.API_KEY"
       }
     }
   ]
@@ -106,10 +112,15 @@ npm run dev
 ```
 Navigate to [http://localhost:3000](http://localhost:3000) to view the scanner dashboard in action.
 
-### 4. Build for production
+### 4. Run the verification test suite
+```bash
+npm run verify:demo
+```
+This runs the deterministic security verification script confirming rules triggers, score decrements, and secret redaction.
+
+### 5. Build for production
 ```bash
 npm run build
-npm run start
 ```
 
 ---
@@ -121,3 +132,4 @@ Here are ideas for showcasing this project on your resume/CV:
 - **Built and deployed PatchPilot**, a static security scanner in Next.js 15, TypeScript, and Tailwind CSS v4, scanning code blocks locally for 8 high-severity vulnerability patterns (OWASP Top 10) with 100% deterministic rule matching.
 - **Designed a custom unified-diff engine** that dynamically constructs git-compatible code recommendations and applies secure patches directly into the code editor in real-time, reducing remediation times.
 - **Implemented a confidential static-analysis pipeline** using browser-sandboxed scanning, guaranteeing zero data leakage to external LLM APIs and reducing scan latency to under 5ms.
+- **Mapped findings to security standards** (CWE and OWASP Top 10) and enabled automated redaction pipelines, safeguarding code repositories from credential leaks.
