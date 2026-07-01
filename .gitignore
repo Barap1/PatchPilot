@@ -83,3 +83,7 @@ env/
 pip-log.txt
 pip-delete-this-directory.txt
 poetry.lock
+
+# Assistant and local dev helper instructions
+AGENTS.md
+CLAUDE.md
