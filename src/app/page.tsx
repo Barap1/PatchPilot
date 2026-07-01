@@ -189,7 +189,7 @@ export default function LandingPage() {
                   <div className="text-slate-500 mb-2">@@ -5,2 +5,2 @@</div>
                   <div className="bg-red-500/10 text-red-400 px-3 py-1.5 rounded border-l-2 border-red-500 my-1 flex items-start">
                     <span className="mr-2 select-none">-</span>
-                    <span>const query = `SELECT * FROM users WHERE id = ${userId}`;</span>
+                    <span>const query = &#96;SELECT * FROM users WHERE id = &#36;&#123;userId&#125;&#96;;</span>
                   </div>
                   <div className="bg-green-500/10 text-green-400 px-3 py-1.5 rounded border-l-2 border-accent my-1 flex items-start">
                     <span className="mr-2 select-none">+</span>
