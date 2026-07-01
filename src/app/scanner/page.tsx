@@ -227,6 +227,7 @@ function ScannerClient() {
                     <select
                       value={language}
                       onChange={(e) => handleLanguageChange(e.target.value)}
+                      aria-label="Select programming language"
                       className="bg-slate-900 border border-slate-800 text-xs text-slate-200 rounded-lg px-3 py-1.5 outline-none focus:border-accent cursor-pointer"
                     >
                       {languages.map((l) => (
@@ -241,6 +242,7 @@ function ScannerClient() {
                     <select
                       value={selectedCaseId}
                       onChange={(e) => handleCaseChange(e.target.value)}
+                      aria-label="Select vulnerability demo case"
                       className="bg-slate-900 border border-slate-800 text-xs text-slate-200 rounded-lg px-3 py-1.5 outline-none focus:border-accent cursor-pointer"
                     >
                       <option value="">-- Choose Vulnerability --</option>
