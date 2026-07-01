@@ -33,10 +33,17 @@ export interface Finding {
   };
 }
 
+/**
+ * Represents the complete aggregate result of a code scan.
+ */
 export interface ScanResult {
+  /** Overall computed security score from 0 (poor) to 100 (secure) */
   score: number;
+  /** Language identifier utilized for scanning */
   language: string;
+  /** Textual explanation summarizing overall scan conclusions */
   summary: string;
+  /** Complete collection of vulnerability findings detected */
   findings: Finding[];
 }
 
