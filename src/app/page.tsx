@@ -33,7 +33,7 @@ export default function LandingPage() {
         </div>
       </header>
 
-      {/* Hero Section */}
+      {/* Hero Section - Product Pitch and Primary CTAs */}
       <main className="flex-grow">
         <section className="relative overflow-hidden py-24 md:py-32">
           {/* Decorative glow */}
