@@ -6,6 +6,8 @@ export interface DemoCase {
   id: string;
   /** Human-readable display label for the dropdown list */
   name: string;
+  /** Expected rule IDs to be triggered by this demo case */
+  expectedRuleIds: string[];
   /** The source code templates in supported languages */
   languages: {
     javascript: string;
@@ -18,6 +20,7 @@ export const demoCases: DemoCase[] = [
   {
     id: "hardcoded-secrets",
     name: "Hardcoded API key",
+    expectedRuleIds: ["hardcoded-secrets"],
     languages: {
       javascript: `// Javascript - Hardcoded API Key
 const apiKey = "sk-proj-aB1c2D3e4F5g6H7i8J9k0L1m2N3o4P5q6R7s8T9u";
@@ -37,6 +40,7 @@ print("Connected to S3 bucket.")`
   {
     id: "sql-injection",
     name: "SQL injection",
+    expectedRuleIds: ["sql-injection"],
     languages: {
       javascript: `// Javascript - SQL Injection
 async function getUser(req, res) {
@@ -65,6 +69,7 @@ def get_user(request):
   {
     id: "command-injection",
     name: "Command injection",
+    expectedRuleIds: ["command-injection"],
     languages: {
       javascript: `// Javascript - Command Injection
 const { exec } = require('child_process');
@@ -94,6 +99,7 @@ def ping_host(ip):
   {
     id: "unsafe-eval",
     name: "Unsafe eval",
+    expectedRuleIds: ["unsafe-eval"],
     languages: {
       javascript: `// Javascript - Unsafe Eval
 function runCalculation(expr) {
@@ -115,6 +121,7 @@ def run_calculation(expr):
   {
     id: "insecure-cors",
     name: "Insecure CORS",
+    expectedRuleIds: ["insecure-cors"],
     languages: {
       javascript: `// Javascript - Insecure CORS
 const express = require('express');
@@ -147,6 +154,7 @@ CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)`
   {
     id: "path-traversal",
     name: "Path traversal",
+    expectedRuleIds: ["path-traversal"],
     languages: {
       javascript: `// Javascript - Path Traversal
 const fs = require('fs');
@@ -178,6 +186,7 @@ def get_profile(request):
   {
     id: "weak-token-generation",
     name: "Weak token generation",
+    expectedRuleIds: ["weak-token-generation"],
     languages: {
       javascript: `// Javascript - Weak Token Generation
 function generateSessionToken() {
@@ -197,6 +206,20 @@ def generate_session_token():
     # random module is not cryptographically secure
     session_token = str(random.random())
     return session_token`
+    }
+  },
+  {
+    id: "sensitive-logging",
+    name: "Sensitive logging",
+    expectedRuleIds: ["sensitive-logging"],
+    languages: {
+      javascript: `// Javascript - Sensitive Logging
+console.log("user token:", user.token);`,
+      typescript: `// TypeScript - Sensitive Logging
+console.log("authorization header", req.headers.authorization);`,
+      python: `# Python - Sensitive Logging
+import logging
+logging.info("password=%s", password)`
     }
   }
 ];
