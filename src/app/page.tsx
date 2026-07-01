@@ -157,7 +157,7 @@ export default function LandingPage() {
                 <span className="text-xs font-bold uppercase tracking-wider text-accent font-mono">Remediation Mock</span>
                 <h2 className="text-3xl font-mono font-bold text-white mt-2 mb-6">Real patch suggestions</h2>
                 <p className="text-slate-400 mb-6 leading-relaxed">
-                  PatchPilot doesn't just call out bugs. For every detected issue, it generates a git-style patch suggestion that provides a safe replacement.
+                  PatchPilot doesn&apos;t just call out bugs. For every detected issue, it generates a git-style patch suggestion that provides a safe replacement.
                 </p>
                 <div className="space-y-4">
                   {[
