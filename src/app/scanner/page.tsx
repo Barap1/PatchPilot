@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, Suspense } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { demoCases } from "../../../lib/scanner/demoCases";
 import { Finding, ScanResult } from "../../../lib/scanner/scan";
@@ -72,7 +72,7 @@ const generateMarkdownReport = (result: ScanResult, repoName?: string, branchNam
   return md;
 };
 
-const generateSarifReport = (result: ScanResult, repoName?: string) => {
+const generateSarifReport = (result: ScanResult, _repoName?: string) => {
   const sarif = {
     $schema: "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
     version: "2.1.0",
@@ -128,11 +128,46 @@ const generateSarifReport = (result: ScanResult, repoName?: string) => {
   return JSON.stringify(sarif, null, 2);
 };
 
+export interface RepoScanFileResult {
+  path: string;
+  language: string;
+  score: number;
+  findings: Finding[];
+}
+
+export interface RepoScanSkippedFile {
+  path: string;
+  reason: string;
+}
+
+export interface RepoScanResult {
+  repo: string;
+  branch: string;
+  filesScanned: number;
+  filesSkipped: number;
+  score: number;
+  summary: string;
+  results: RepoScanFileResult[];
+  skipped: RepoScanSkippedFile[];
+}
+
 // --- Main component ---
 
 function ScannerClient() {
   const searchParams = useSearchParams();
-  const router = useRouter();
+
+  // Hydrate states from searchParams directly on initialization
+  const caseParam = searchParams.get("case");
+  const langParam = searchParams.get("lang");
+  
+  let initialLang = "javascript";
+  if (langParam && ["javascript", "typescript", "python"].includes(langParam.toLowerCase())) {
+    initialLang = langParam.toLowerCase();
+  }
+
+  const initialCase = caseParam || "";
+  const matchedCase = demoCases.find(c => c.id === initialCase);
+  const initialCode = matchedCase ? (matchedCase.languages[initialLang as "javascript" | "typescript" | "python"] || "") : "";
 
   // Languages supported
   const languages = [
@@ -142,12 +177,12 @@ function ScannerClient() {
   ];
 
   // Active Workspace Mode Tab: "editor" | "github-file" | "github-repo"
-  const [activeTab, setActiveTab] = useState<"editor" | "github-file" | "github-repo">("editor");
+  const [activeTab, setActiveTab] = useState<"editor" | "github-file" | "github-repo">(caseParam ? "editor" : "editor");
 
   // Single File Editor Workspace States
-  const [language, setLanguage] = useState<string>("javascript");
-  const [code, setCode] = useState<string>("");
-  const [selectedCaseId, setSelectedCaseId] = useState<string>("");
+  const [language, setLanguage] = useState<string>(initialLang);
+  const [code, setCode] = useState<string>(initialCode);
+  const [selectedCaseId, setSelectedCaseId] = useState<string>(initialCase);
   const [result, setResult] = useState<ScanResult | null>(null);
   const [isScanning, setIsScanning] = useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -160,7 +195,7 @@ function ScannerClient() {
   // GitHub Repository Scan States
   const [githubRepoUrl, setGithubRepoUrl] = useState<string>("");
   const [githubBranch, setGithubBranch] = useState<string>("main");
-  const [repoResult, setRepoResult] = useState<any | null>(null);
+  const [repoResult, setRepoResult] = useState<RepoScanResult | null>(null);
   const [isRepoScanning, setIsRepoScanning] = useState<boolean>(false);
   const [expandedRepoFiles, setExpandedRepoFiles] = useState<Record<string, boolean>>({});
 
@@ -177,28 +212,6 @@ function ScannerClient() {
   } | null>(null);
   const [isAiLoading, setIsAiLoading] = useState<boolean>(false);
   const [aiError, setAiError] = useState<string | null>(null);
-
-  // Hydrate states from URL query params
-  useEffect(() => {
-    const caseParam = searchParams.get("case");
-    const langParam = searchParams.get("lang");
-
-    let initialLang = "javascript";
-    if (langParam && ["javascript", "typescript", "python"].includes(langParam.toLowerCase())) {
-      initialLang = langParam.toLowerCase();
-    }
-    setLanguage(initialLang);
-
-    if (caseParam) {
-      const matchedCase = demoCases.find(c => c.id === caseParam);
-      if (matchedCase) {
-        setSelectedCaseId(matchedCase.id);
-        const demoCode = matchedCase.languages[initialLang as "javascript" | "typescript" | "python"];
-        setCode(demoCode || "");
-        setActiveTab("editor");
-      }
-    }
-  }, [searchParams]);
 
   // Handle language change
   const handleLanguageChange = (newLang: string) => {
@@ -248,8 +261,8 @@ function ScannerClient() {
       if (data.findings && data.findings.length > 0) {
         setSelectedFindingId(data.findings[0].id);
       }
-    } catch (err: any) {
-      alert(err.message || "An error occurred.");
+    } catch (err: unknown) {
+      alert((err as Error).message || "An error occurred.");
     } finally {
       setIsScanning(false);
     }
@@ -282,8 +295,8 @@ function ScannerClient() {
       setSuccessMessage(`Successfully imported ${data.path}!`);
       setActiveTab("editor");
       setTimeout(() => setSuccessMessage(null), 4000);
-    } catch (err: any) {
-      alert(err.message || "Failed to import GitHub file.");
+    } catch (err: unknown) {
+      alert((err as Error).message || "Failed to import GitHub file.");
     } finally {
       setIsFileLoading(false);
     }
@@ -318,7 +331,7 @@ function ScannerClient() {
       
       // Auto-expand files that have findings
       const expanded: Record<string, boolean> = {};
-      data.results.forEach((r: any) => {
+      data.results.forEach((r: RepoScanFileResult) => {
         if (r.findings && r.findings.length > 0) {
           expanded[r.path] = true;
         }
@@ -326,15 +339,15 @@ function ScannerClient() {
       setExpandedRepoFiles(expanded);
 
       // Auto-select first finding if available
-      const allFindings = data.results.flatMap((r: any) => 
-        r.findings.map((f: any) => ({ ...f, filePath: r.path }))
+      const allFindings = data.results.flatMap((r: RepoScanFileResult) => 
+        r.findings.map((f: Finding) => ({ ...f, filePath: r.path }))
       );
       if (allFindings.length > 0) {
         // Tag finding ID with file path to identify it uniquely
         setSelectedFindingId(`${allFindings[0].id}:${allFindings[0].filePath}`);
       }
-    } catch (err: any) {
-      alert(err.message || "Failed to run repository scan.");
+    } catch (err: unknown) {
+      alert((err as Error).message || "Failed to run repository scan.");
     } finally {
       setIsRepoScanning(false);
     }
@@ -412,8 +425,8 @@ function ScannerClient() {
       }
 
       setAiExplanation(data);
-    } catch (err: any) {
-      setAiError(err.message || "An error occurred during AI generation.");
+    } catch (err: unknown) {
+      setAiError((err as Error).message || "An error occurred during AI generation.");
     } finally {
       setIsAiLoading(false);
     }
@@ -426,8 +439,8 @@ function ScannerClient() {
     if (activeTab === "github-repo" && repoResult) {
       // Finding ID is formatted as ruleId-idx:filePath
       const [findingId, filePath] = selectedFindingId.split(":");
-      const fileRes = repoResult.results.find((r: any) => r.path === filePath);
-      return fileRes?.findings.find((f: any) => f.id === findingId) || null;
+      const fileRes = repoResult.results.find((r: RepoScanFileResult) => r.path === filePath);
+      return fileRes?.findings.find((f: Finding) => f.id === findingId) || null;
     }
 
     return result?.findings.find(f => f.id === selectedFindingId) || null;
@@ -439,18 +452,11 @@ function ScannerClient() {
   // Stats calculators
   const getSeverityCount = (sev: string) => {
     if (activeTab === "github-repo" && repoResult) {
-      return repoResult.results.reduce((acc: number, r: any) => 
-        acc + r.findings.filter((f: any) => f.severity === sev).length
+      return repoResult.results.reduce((acc: number, r: RepoScanFileResult) => 
+        acc + r.findings.filter((f: Finding) => f.severity === sev).length
       , 0);
     }
     return result?.findings.filter(f => f.severity === sev).length || 0;
-  };
-
-  const getActiveFindingsCount = () => {
-    if (activeTab === "github-repo" && repoResult) {
-      return repoResult.results.reduce((acc: number, r: any) => acc + r.findings.length, 0);
-    }
-    return result?.findings.length || 0;
   };
 
   // File loading helper for repo results
@@ -809,7 +815,7 @@ function ScannerClient() {
                           No compatible scripting files detected to scan.
                         </div>
                       ) : (
-                        repoResult.results.map((fResult: any) => (
+                        repoResult.results.map((fResult: RepoScanFileResult) => (
                           <div key={fResult.path} className="border border-slate-900 rounded-xl bg-slate-950/20 overflow-hidden">
                             <div
                               onClick={() => setExpandedRepoFiles(prev => ({ ...prev, [fResult.path]: !prev[fResult.path] }))}
@@ -871,7 +877,7 @@ function ScannerClient() {
                           <span className="transition-transform group-open:rotate-180 font-mono text-[9px]">&darr;</span>
                         </summary>
                         <div className="px-4 pb-3 pt-1 border-t border-slate-900 text-[10px] font-mono text-slate-500 max-h-[150px] overflow-y-auto space-y-1">
-                          {repoResult.skipped.map((skip: any, idx: number) => (
+                          {repoResult.skipped.map((skip: RepoScanSkippedFile, idx: number) => (
                             <div key={idx} className="flex justify-between py-0.5 border-b border-slate-900/30">
                               <span className="truncate max-w-xs">{skip.path}</span>
                               <span className="text-slate-600">{skip.reason}</span>
