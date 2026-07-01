@@ -10,32 +10,76 @@
 !.yarn/releases
 !.yarn/versions
 
-# testing
+# testing & coverage
 /coverage
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+nosetests.xml
+coverage.xml
+*.cover
 
-# next.js
+# next.js build outputs
 /.next/
 /out/
-
-# production
 /build
+.turbo/
 
-# misc
-.DS_Store
+# env / secrets (critical - never commit to public repositories)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
 *.pem
+*.key
+*.cert
+secret.txt
+secrets.json
 
-# debug
+# debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
-
-# env files (can opt-in for committing if needed)
-.env*
+*.log
 
 # vercel
 .vercel
 
-# typescript
+# typescript / compiler info
 *.tsbuildinfo
 next-env.d.ts
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*.swo
+
+# Operating System files
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# Python files (rules / runner metadata)
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+pip-log.txt
+pip-delete-this-directory.txt
+poetry.lock
