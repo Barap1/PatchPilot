@@ -61,6 +61,11 @@ function getLineNumbers(code: string, startIndex: number, endIndex: number) {
   return { lineStart, lineEnd };
 }
 
+/**
+ * Core static analysis engine that scans source code for matching vulnerability rule patterns.
+ * @param code - The string containing source code to be scanned
+ * @param language - The target language (javascript, typescript, python)
+ */
 export function scanCode(code: string, language: string): ScanResult {
   const findings: Finding[] = [];
   const normalizedLang = language.toLowerCase();
