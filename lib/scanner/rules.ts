@@ -118,7 +118,7 @@ export const rules: Rule[] = [
         regex: /(?:SELECT|INSERT|UPDATE|DELETE)\b[^`]*?\$\{.+?\}/gi,
         replacementMode: "range",
         matchedBecause: "Matched because user-controlled input appears to be interpolated into a SQL template query string.",
-        generatePatch: (match, lang) => {
+        generatePatch: (match, _lang) => {
           const before = match;
           const after = match.replace(/\$\{(.+?)\}/g, "?");
           return {
@@ -133,7 +133,7 @@ export const rules: Rule[] = [
         regex: /(?:SELECT|INSERT|UPDATE|DELETE)\b[^"']*?["']\s*\+\s*[^"'\s]+|\w+\s*\+\s*["']\s*(?:SELECT|INSERT|UPDATE|DELETE)\b/gi,
         replacementMode: "range",
         matchedBecause: "Matched because string concatenation was used to construct a dynamic SQL query.",
-        generatePatch: (match, lang) => {
+        generatePatch: (match, _lang) => {
           const before = match;
           const after = match.replace(/["']\s*\+\s*\w+|\w+\s*\+\s*["']/g, "?");
           return {
@@ -148,7 +148,7 @@ export const rules: Rule[] = [
         regex: /f["'](?:SELECT|INSERT|UPDATE|DELETE)\b.*?\{.+?\}/gi,
         replacementMode: "range",
         matchedBecause: "Matched because Python f-string formatting was used to interpolate values directly into a SQL query.",
-        generatePatch: (match, lang) => {
+        generatePatch: (match, _lang) => {
           const before = match;
           const after = match.replace(/\{.+?\}/g, "%s").replace(/^f/, "");
           return {
@@ -177,7 +177,7 @@ export const rules: Rule[] = [
         regex: /\bexec\s*\(\s*(?:`[^`]*\$\{.+?\}[^`]*`|["'][^"']*(?:["']\s*\+\s*[\w.]+|[\w.]+\s*\+\s*["'])[^"']*)\s*(?:,)?/gi,
         replacementMode: "range",
         matchedBecause: "Matched because user-controlled strings are executed dynamically via a system shell.",
-        generatePatch: (match, lang) => {
+        generatePatch: (match, _lang) => {
           const hasComma = match.endsWith(",");
           const replacement = `execFile('ping', ['-c', '1', host]${hasComma ? "," : ""}`;
           return {
@@ -192,7 +192,7 @@ export const rules: Rule[] = [
         regex: /\b(?:os\.system|subprocess\.run|subprocess\.Popen)\s*\(\s*(?:f["'][^"']*(?:\{.+?\})[^"']*["']|["'][^"']*(?:["']\s*\+\s*[\w.]+|[\w.]+\s*\+\s*["'])|[^,]+?\+[^,]+?)\s*(?:,\s*shell\s*=\s*True)?\s*\)/gi,
         replacementMode: "range",
         matchedBecause: "Matched because system execution command is called with dynamic inputs and shell=True.",
-        generatePatch: (match, lang) => {
+        generatePatch: (match, _lang) => {
           const before = match;
           const after = "subprocess.run(['ping', '-c', '1', ip], shell=False)";
           return {
@@ -234,7 +234,7 @@ export const rules: Rule[] = [
         regex: /\bnew\s+Function\s*\([^)]+\)/gi,
         replacementMode: "range",
         matchedBecause: "Matched because new Function(...) was used to dynamically compile strings.",
-        generatePatch: (match, lang) => {
+        generatePatch: (match, _lang) => {
           const before = match;
           const after = "/* Avoid dynamic function generation; invoke pre-defined handlers instead */";
           return {
@@ -263,7 +263,7 @@ export const rules: Rule[] = [
         regex: /(?:origin[s]?|["']origin[s]?["'])\s*[:=]\s*["']\*["'][\s\S]{0,100}?(?:credential[s]?|supports_credentials)\s*[:=]\s*(?:true|True)/gi,
         replacementMode: "range",
         matchedBecause: "Matched because CORS configuration enables credentials access while allowing all origins (*).",
-        generatePatch: (match, lang) => {
+        generatePatch: (match, _lang) => {
           const before = match;
           const after = match.replace(/["']\*["']/i, "['https://trustedapp.com']");
           return {
@@ -278,7 +278,7 @@ export const rules: Rule[] = [
         regex: /(?:credential[s]?|supports_credentials)\s*[:=]\s*(?:true|True)[\s\S]{0,100}?(?:origin[s]?|["']origin[s]?["'])\s*[:=]\s*["']\*["']/gi,
         replacementMode: "range",
         matchedBecause: "Matched because CORS configuration enables credentials access while allowing all origins (*).",
-        generatePatch: (match, lang) => {
+        generatePatch: (match, _lang) => {
           const before = match;
           const after = match.replace(/["']\*["']/i, "['https://trustedapp.com']");
           return {
@@ -307,7 +307,7 @@ export const rules: Rule[] = [
         regex: /\b(?:readFile|readFileSync|createReadStream)\s*\(\s*([^)]*?(?:req\.|params\.|file\b|filename\b)[^)]*?)\)/gi,
         replacementMode: "range",
         matchedBecause: "Matched because user-controlled inputs are passed directly to file reading APIs.",
-        generatePatch: (match, lang) => {
+        generatePatch: (match, _lang) => {
           const matchMethod = match.match(/\b(readFileSync|readFile|createReadStream)\b/i);
           const method = matchMethod ? matchMethod[1] : "readFileSync";
           const argMatch = match.match(/\(([^)]+)\)/);
@@ -329,7 +329,7 @@ export const rules: Rule[] = [
         regex: /\bopen\s*\(\s*([^)]*?(?:request\.|params\.|file\b|filename\b)[^)]*?)\)/gi,
         replacementMode: "range",
         matchedBecause: "Matched because dynamic file path is open()ed without sanitization.",
-        generatePatch: (match, lang) => {
+        generatePatch: (match, _lang) => {
           const argMatch = match.match(/\(([^)]+)\)/);
           const arg = argMatch ? argMatch[1].trim() : "filename";
           const replacement = `open(os.path.join(SAFE_DIR, os.path.basename(${arg})))`;
@@ -359,10 +359,8 @@ export const rules: Rule[] = [
         regex: /\b(?:token|session|password|reset|secret|key)\b[^=]*?=\s*[^=]*?\bMath\.random\s*\(\s*\)/gi,
         replacementMode: "line",
         matchedBecause: "Matched because Math.random() is used to generate variables named after keys/tokens.",
-        generatePatch: (match, lang) => {
+        generatePatch: (match, _lang) => {
           const before = match;
-          const after = match.replace(/Math\.random\s*\(\s*\)\.toString\(\d*\)\.substring\(\d*\)/i, "crypto.randomBytes(32).toString('hex')")
-                             .replace(/Math\.random\s*\(\s*\)/i, "crypto.randomInt(100000, 999999)");
           const varNameMatch = match.match(/\b(token|session|password|reset|secret|key)\b/i);
           const varName = varNameMatch ? varNameMatch[1] : "token";
           const finalAfter = `const ${varName} = crypto.randomBytes(32).toString('hex'); // Secure generator`;
@@ -378,7 +376,7 @@ export const rules: Rule[] = [
         regex: /\b(?:token|session|password|reset|secret|key)\b[^=]*?=\s*[^=]*?\brandom\.(?:random|randint|choice)\b/gi,
         replacementMode: "line",
         matchedBecause: "Matched because standard python random module is used to generate keys/tokens.",
-        generatePatch: (match, lang) => {
+        generatePatch: (match, _lang) => {
           const before = match;
           const varNameMatch = match.match(/\b(token|session|password|reset|secret|key)\b/i);
           const varName = varNameMatch ? varNameMatch[1] : "token";
@@ -409,7 +407,7 @@ export const rules: Rule[] = [
         regex: /\bconsole\.(?:log|info|warn|error)\s*\(\s*[^)]*?\b(?:password|token|secret|api_key|apikey|authorization|auth)\b[^)]*?\)/gi,
         replacementMode: "line",
         matchedBecause: "Matched because sensitive variable names (password, token, etc.) are written directly to console logs.",
-        generatePatch: (match, lang) => {
+        generatePatch: (match, _lang) => {
           const before = match;
           const after = "console.log('User status updated'); // Redacted sensitive information";
           return {
@@ -424,7 +422,7 @@ export const rules: Rule[] = [
         regex: /\b(?:print|logging\.(?:info|warning|error|debug|log))\s*\(\s*[^)]*?\b(?:password|token|secret|api_key|apikey|authorization|auth)\b[^)]*?\)/gi,
         replacementMode: "line",
         matchedBecause: "Matched because sensitive credentials or keys are written to output logging methods in Python.",
-        generatePatch: (match, lang) => {
+        generatePatch: (match, _lang) => {
           const before = match;
           const after = "logging.info('User status updated') # Redacted sensitive information";
           return {
