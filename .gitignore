@@ -86,3 +86,4 @@ poetry.lock
 # Assistant and local dev helper instructions
 AGENTS.md
 CLAUDE.md
+.agents/
