@@ -1,24 +1,16 @@
 # PatchPilot: AI-Assisted Code Security Scanner & Patches
 
-**PatchPilot** is a professional, deterministic static analysis scanner designed to catch common security risks in JavaScript, TypeScript, and Python code, map them to CWE/OWASP standards, explain the threats, and instantly build clean, git-style patch recommendations to fix them.
+**PatchPilot** is a deterministic static analysis scanner designed to catch common security risks in JavaScript, TypeScript, and Python code, map them to CWE/OWASP standards, explain the threats, and instantly build clean, git-style patch recommendations to fix them.
 
-It runs entirely locally in your browser memory and API routes with zero external network request overhead—ensuring complete confidentiality for your intellectual property.
 
----
-
-## Why PatchPilot Matters (For AI-Assisted Development)
-
-While LLMs and AI coding assistants (like Gemini, Copilot, or ChatGPT) have skyrocketed developer velocity, studies show they frequently generate insecure code containing legacy API keys, SQL injections, or unescaped shell commands. 
-
-PatchPilot acts as an immediate **local security guardrail**. By checking code against high-risk pattern rules before code reviews, it helps developers prevent vulnerabilities from ever entering version control or production pipelines.
-
+> My main goal with this project was to learn more about the code review space.
 ---
 
 ## Tech Stack
 
 - **Framework**: Next.js (App Router)
 - **Language**: TypeScript
-- **Styling**: Tailwind CSS v4 (configured with Google Fonts `IBM Plex Sans` & `JetBrains Mono`)
+- **Styling**: Tailwind CSS v4
 - **Analysis Engine**: Deterministic Regex Static Pattern Matching (rules run in `lib/scanner`)
 - **API Handler**: Next.js API Routes (Serverless endpoint at `/api/scan`)
 
@@ -122,14 +114,3 @@ This runs the deterministic security verification script confirming rules trigge
 ```bash
 npm run build
 ```
-
----
-
-## Resume Bullet Ideas
-
-Here are ideas for showcasing this project on your resume/CV:
-
-- **Built and deployed PatchPilot**, a static security scanner in Next.js 15, TypeScript, and Tailwind CSS v4, scanning code blocks locally for 8 high-severity vulnerability patterns (OWASP Top 10) with 100% deterministic rule matching.
-- **Designed a custom unified-diff engine** that dynamically constructs git-compatible code recommendations and applies secure patches directly into the code editor in real-time, reducing remediation times.
-- **Implemented a confidential static-analysis pipeline** using browser-sandboxed scanning, guaranteeing zero data leakage to external LLM APIs and reducing scan latency to under 5ms.
-- **Mapped findings to security standards** (CWE and OWASP Top 10) and enabled automated redaction pipelines, safeguarding code repositories from credential leaks.
