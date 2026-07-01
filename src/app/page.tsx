@@ -76,7 +76,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* How It Works Section */}
+        {/* How It Works Section - Step-by-Step Flow */}
         <section className="border-t border-slate-900 py-20 bg-slate-900/10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-2xl mx-auto mb-16">
