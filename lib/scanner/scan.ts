@@ -47,6 +47,12 @@ export interface ScanResult {
   findings: Finding[];
 }
 
+/**
+ * Calculates 1-based start and end line numbers for a given character index range.
+ * @param code - The complete file text content
+ * @param startIndex - The character start index of the match
+ * @param endIndex - The character end index of the match
+ */
 function getLineNumbers(code: string, startIndex: number, endIndex: number) {
   const before = code.substring(0, startIndex);
   const lineStart = before.split("\n").length;
