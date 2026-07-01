@@ -1,18 +1,34 @@
 import { rules } from "./rules";
 
+/**
+ * Represents a single vulnerability finding produced by the scanner.
+ */
 export interface Finding {
+  /** Uniquely generated identifier for this specific finding instance */
   id: string;
+  /** Title of the corresponding rule */
   title: string;
+  /** Severity rating */
   severity: "low" | "medium" | "high" | "critical";
+  /** Categorization label */
   category: string;
+  /** The 1-indexed starting line number of the match */
   lineStart: number;
+  /** The 1-indexed ending line number of the match */
   lineEnd: number;
+  /** The exact matching code snippet containing the vulnerability pattern */
   evidence: string;
+  /** Explanation of the security vulnerability threat */
   explanation: string;
+  /** Actionable guidance on how to fix the code */
   recommendation: string;
+  /** Patch recommendation data */
   patch: {
+    /** The code lines before modification */
     before: string;
+    /** The recommended secure code lines replacement */
     after: string;
+    /** A git-style unified diff representation */
     diff: string;
   };
 }
