@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { demoCases } from "../../../lib/scanner/demoCases";
@@ -72,7 +72,7 @@ const generateMarkdownReport = (result: ScanResult, repoName?: string, branchNam
   return md;
 };
 
-const generateSarifReport = (result: ScanResult, _repoName?: string) => {
+const generateSarifReport = (result: ScanResult) => {
   const sarif = {
     $schema: "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
     version: "2.1.0",
@@ -540,8 +540,23 @@ function ScannerClient() {
     );
   };
 
-  const activeResult = activeTab === "github-repo" ? repoResult : result;
-  const activeScore = activeResult?.score ?? null;
+  const getActiveScanResult = (): ScanResult | null => {
+    if (activeTab === "github-repo") {
+      if (!repoResult) return null;
+      return {
+        score: repoResult.score,
+        language: "multi",
+        summary: repoResult.summary,
+        findings: repoResult.results.flatMap(r => 
+          r.findings.map(f => ({ ...f, id: `${f.id}:${r.path}` }))
+        )
+      };
+    }
+    return result;
+  };
+
+  const activeScanResult = getActiveScanResult();
+  const activeScore = activeScanResult?.score ?? null;
 
   return (
     <div className="flex flex-col min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-accent selection:text-slate-950">
@@ -906,7 +921,7 @@ function ScannerClient() {
           <div className="lg:col-span-2 space-y-4">
             
             {/* Empty State */}
-            {!activeResult && !isScanning && !isRepoScanning && (
+            {!activeScanResult && !isScanning && !isRepoScanning && (
               <div className="border border-slate-900 rounded-2xl p-8 bg-slate-900/10 text-center flex flex-col items-center justify-center min-h-[450px]">
                 <div className="p-4 bg-slate-900 rounded-full border border-slate-800 text-slate-500 mb-4">
                   <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
@@ -921,7 +936,7 @@ function ScannerClient() {
             )}
 
             {/* Loaders */}
-            {(isScanning || isRepoScanning) && !activeResult && (
+            {(isScanning || isRepoScanning) && !activeScanResult && (
               <div className="border border-slate-900 rounded-2xl p-8 bg-slate-900/10 text-center flex flex-col items-center justify-center min-h-[450px]">
                 <div className="w-10 h-10 border-2 border-slate-800 border-t-accent rounded-full animate-spin mb-4" />
                 <h3 className="text-sm font-bold text-white mb-2">Analyzing Patterns...</h3>
@@ -930,7 +945,7 @@ function ScannerClient() {
             )}
 
             {/* Scan Results Deck */}
-            {activeResult && (
+            {activeScanResult && (
               <div className="space-y-4">
                 
                 {/* Score & Counters Gauge */}
@@ -941,10 +956,10 @@ function ScannerClient() {
                     <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wide">Security Score</span>
                     <div className="my-3 flex items-baseline">
                       <span className={`text-4xl font-extrabold font-mono ${
-                        activeScore! >= 90 ? "text-green-400" :
-                        activeScore! >= 70 ? "text-yellow-400" :
-                        activeScore! >= 50 ? "text-orange-400" :
-                        "text-red-500"
+                         activeScore! >= 90 ? "text-green-400" :
+                         activeScore! >= 70 ? "text-yellow-400" :
+                         activeScore! >= 50 ? "text-orange-400" :
+                         "text-red-500"
                       }`}>
                         {activeScore}
                       </span>
@@ -987,14 +1002,14 @@ function ScannerClient() {
 
                 {/* Summary text */}
                 <div className="p-3 border border-slate-900 rounded-xl bg-slate-900/10 text-xs text-slate-400 font-mono leading-relaxed">
-                  {activeResult.summary}
+                  {activeScanResult.summary}
                 </div>
 
                 {/* Report Exports Row */}
                 <div className="flex flex-wrap items-center gap-2">
                   <button
                     onClick={() => {
-                      const md = generateMarkdownReport(activeResult, repoResult?.repo, repoResult?.branch);
+                      const md = generateMarkdownReport(activeScanResult, repoResult?.repo, repoResult?.branch);
                       handleCopyText(md, "Markdown report copied to clipboard!");
                     }}
                     className="px-3 py-1.5 border border-slate-800 hover:border-slate-700 bg-slate-900/40 text-[10px] font-mono rounded-lg text-slate-300 cursor-pointer"
@@ -1003,7 +1018,7 @@ function ScannerClient() {
                   </button>
                   <button
                     onClick={() => {
-                      const md = generateMarkdownReport(activeResult, repoResult?.repo, repoResult?.branch);
+                      const md = generateMarkdownReport(activeScanResult, repoResult?.repo, repoResult?.branch);
                       handleDownloadFile("patchpilot-security-report.md", md);
                     }}
                     className="px-3 py-1.5 border border-slate-800 hover:border-slate-700 bg-slate-900/40 text-[10px] font-mono rounded-lg text-slate-300 cursor-pointer"
@@ -1012,7 +1027,7 @@ function ScannerClient() {
                   </button>
                   <button
                     onClick={() => {
-                      const sarif = generateSarifReport(activeResult, repoResult?.repo);
+                      const sarif = generateSarifReport(activeScanResult);
                       handleCopyText(sarif, "SARIF report copied to clipboard!");
                     }}
                     className="px-3 py-1.5 border border-slate-800 hover:border-slate-700 bg-slate-900/40 text-[10px] font-mono rounded-lg text-slate-300 cursor-pointer"
@@ -1021,7 +1036,7 @@ function ScannerClient() {
                   </button>
                   <button
                     onClick={() => {
-                      const sarif = generateSarifReport(activeResult, repoResult?.repo);
+                      const sarif = generateSarifReport(activeScanResult);
                       handleDownloadFile("patchpilot-sarif.json", sarif);
                     }}
                     className="px-3 py-1.5 border border-slate-800 hover:border-slate-700 bg-slate-900/40 text-[10px] font-mono rounded-lg text-slate-300 cursor-pointer"
@@ -1030,7 +1045,7 @@ function ScannerClient() {
                   </button>
                   <button
                     onClick={() => {
-                      handleCopyText(JSON.stringify(activeResult, null, 2), "Redacted JSON copied to clipboard!");
+                      handleCopyText(JSON.stringify(activeScanResult, null, 2), "Redacted JSON copied to clipboard!");
                     }}
                     className="px-3 py-1.5 border border-slate-800 hover:border-slate-700 bg-slate-900/40 text-[10px] font-mono rounded-lg text-slate-300 cursor-pointer"
                   >
@@ -1041,11 +1056,11 @@ function ScannerClient() {
                 {/* Editor Findings Deck List */}
                 {activeTab !== "github-repo" && (
                   <>
-                    {activeResult.findings.length > 0 ? (
+                    {activeScanResult.findings.length > 0 ? (
                       <div className="space-y-2">
-                        <div className="text-[10px] font-mono text-slate-500 uppercase tracking-wide">Findings Detected ({activeResult.findings.length})</div>
+                        <div className="text-[10px] font-mono text-slate-500 uppercase tracking-wide">Findings Detected ({activeScanResult.findings.length})</div>
                         <div className="max-h-[220px] overflow-y-auto space-y-2 pr-1">
-                          {activeResult.findings.map((finding: Finding) => (
+                          {activeScanResult.findings.map((finding: Finding) => (
                             <div
                               key={finding.id}
                               onClick={() => setSelectedFindingId(finding.id)}
