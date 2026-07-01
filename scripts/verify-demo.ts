@@ -1,6 +1,5 @@
 import { demoCases } from "../lib/scanner/demoCases";
 import { scanCode } from "../lib/scanner/scan";
-import { redactSecrets } from "../lib/scanner/redaction";
 
 // Simple URL parsing verification stub mimicking the API route logic
 function parseGitHubUrl(urlStr: string) {
@@ -42,8 +41,8 @@ function runVerification() {
     } else {
       console.log("✅ Passed: Valid GitHub web URL parsed correctly.");
     }
-  } catch (err: any) {
-    console.error("❌ Unexpected error parsing valid web URL:", err.message);
+  } catch (err: unknown) {
+    console.error("❌ Unexpected error parsing valid web URL:", (err as Error).message);
     success = false;
   }
 
@@ -55,8 +54,8 @@ function runVerification() {
     } else {
       console.log("✅ Passed: Valid GitHub raw URL parsed correctly.");
     }
-  } catch (err: any) {
-    console.error("❌ Unexpected error parsing valid raw URL:", err.message);
+  } catch (err: unknown) {
+    console.error("❌ Unexpected error parsing valid raw URL:", (err as Error).message);
     success = false;
   }
 
@@ -64,7 +63,7 @@ function runVerification() {
     parseGitHubUrl(invalidUrl);
     console.error("❌ Security failure: Allowed non-GitHub URL!");
     success = false;
-  } catch (err) {
+  } catch (_err) {
     console.log("✅ Passed: Correctly rejected non-GitHub URL.");
   }
 
@@ -72,7 +71,7 @@ function runVerification() {
     parseGitHubUrl(localhostUrl);
     console.error("❌ Security failure: Allowed localhost URL!");
     success = false;
-  } catch (err) {
+  } catch (_err) {
     console.log("✅ Passed: Correctly rejected localhost URL.");
   }
 
