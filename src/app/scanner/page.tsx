@@ -568,10 +568,10 @@ function ScannerClient() {
     <div className="flex flex-col min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-accent selection:text-slate-950 relative overflow-hidden">
 
       {/* Header */}
-      <header className="border-b border-white/5 bg-slate-950/40 backdrop-blur-xl sticky top-0 z-40 shadow-lg shadow-black/20">
+      <header className="border-b border-white/8 bg-slate-950/92 backdrop-blur sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-3 cursor-pointer group">
-            <div className="p-1.5 bg-accent/15 border border-accent/20 rounded-lg group-hover:scale-105 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]">
+            <div className="p-1.5 bg-accent/12 border border-accent/25 rounded-md group-hover:border-accent/50 transition-colors duration-200">
               <svg className="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
@@ -581,9 +581,9 @@ function ScannerClient() {
             </span>
           </Link>
           <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2 text-[10px] font-mono bg-white/5 border border-white/5 px-3 py-1 rounded-full text-slate-400">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-              <span>Local Engine Active</span>
+            <div className="flex items-center space-x-2 text-[10px] font-mono border border-white/8 px-3 py-1 text-slate-400">
+              <span className="w-1.5 h-1.5 rounded-sm bg-accent" />
+              <span>Local rules active</span>
             </div>
           </div>
         </div>
