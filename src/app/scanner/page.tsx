@@ -930,6 +930,18 @@ function ScannerClient() {
                 <span>{successMessage}</span>
               </div>
             )}
+            {noticeMessage && (
+              <div className="p-3.5 bg-red-500/10 border border-red-500/25 rounded-xl text-red-300 text-xs font-mono flex items-center justify-between gap-3 animate-fadeIn">
+                <span>{noticeMessage}</span>
+                <button
+                  onClick={() => setNoticeMessage(null)}
+                  className="text-red-200/70 hover:text-red-100 transition-colors"
+                  aria-label="Dismiss notice"
+                >
+                  Dismiss
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Right Panel: Findings Details (2 Columns) */}
