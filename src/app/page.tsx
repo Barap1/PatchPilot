@@ -141,17 +141,16 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Bento Grid Features Section */}
-        <section className="border-t border-white/5 py-24">
-          <div className="max-w-5xl mx-auto px-6">
+        {/* Feature system */}
+        <section className="border-t border-white/8 py-20">
+          <div className="max-w-6xl mx-auto px-5">
             <div className="text-left max-w-2xl mb-20 space-y-4">
               <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-accent font-bold">Capabilities</span>
               <h2 className="text-3xl md:text-5xl font-display font-extrabold text-white tracking-tight leading-none">
-                Bento-scale feature system.
+                What the scanner returns.
               </h2>
             </div>
 
-            {/* Bento Layout Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               
               {/* Box 1 (Span 2) */}
