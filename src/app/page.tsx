@@ -182,12 +182,10 @@ export default function LandingPage() {
                   </div>
               </div>
 
-              {/* Box 3 (Span 1) */}
-              <div className="rounded-[2rem] border border-white/5 bg-white/5 p-1.5">
-                <div className="rounded-[calc(2rem-0.375rem)] bg-slate-950 p-8 border border-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] h-full flex flex-col justify-between text-left space-y-6">
+              <div className="border border-white/8 bg-slate-950 p-8 h-full flex flex-col justify-between text-left space-y-6">
                   <div className="space-y-3">
-                    <span className="px-2.5 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-[9px] font-mono uppercase tracking-wider text-blue-400">Integrations</span>
-                    <h3 className="text-xl font-bold text-white tracking-tight">Repository Scans</h3>
+                    <span className="text-[9px] font-mono uppercase tracking-wider text-blue-400">Integrations</span>
+                    <h3 className="text-xl font-bold text-white tracking-tight">Repository scans</h3>
                     <p className="text-xs text-slate-400 leading-relaxed">
                       Pull whole public repositories dynamically. Scans compatible codebase files recursively.
                     </p>
@@ -195,15 +193,12 @@ export default function LandingPage() {
                   <div className="font-mono text-[10px] text-slate-500">
                     Recursive &bull; Max 25 Files
                   </div>
-                </div>
               </div>
 
-              {/* Box 4 (Span 2) */}
-              <div className="md:col-span-2 rounded-[2rem] border border-white/5 bg-white/5 p-1.5">
-                <div className="rounded-[calc(2rem-0.375rem)] bg-slate-950 p-8 border border-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] h-full flex flex-col justify-between text-left space-y-8">
+              <div className="md:col-span-2 border border-white/8 bg-slate-950 p-8 h-full flex flex-col justify-between text-left space-y-8">
                   <div className="space-y-3">
-                    <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[9px] font-mono uppercase tracking-wider text-emerald-400">Compliance</span>
-                    <h3 className="text-xl font-bold text-white tracking-tight">CWE & OWASP Taxonomy Mapping</h3>
+                    <span className="text-[9px] font-mono uppercase tracking-wider text-emerald-400">Compliance</span>
+                    <h3 className="text-xl font-bold text-white tracking-tight">CWE and OWASP mapping</h3>
                     <p className="text-xs text-slate-400 leading-relaxed max-w-md">
                       Every finding maps directly to recognized standards (e.g., CWE-89 for SQL Injection, CWE-798 for Secrets) and OWASP Top 10 categories, supporting audit readiness.
                     </p>
@@ -213,7 +208,6 @@ export default function LandingPage() {
                     <span>&bull;</span>
                     <span>✓ Industry Standard Reporting</span>
                   </div>
-                </div>
               </div>
 
             </div>
