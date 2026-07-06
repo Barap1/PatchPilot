@@ -186,6 +186,7 @@ function ScannerClient() {
   const [result, setResult] = useState<ScanResult | null>(null);
   const [isScanning, setIsScanning] = useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [noticeMessage, setNoticeMessage] = useState<string | null>(null);
   const [sourcePath, setSourcePath] = useState<string | null>(null);
 
   // GitHub Single File Import States
@@ -262,7 +263,7 @@ function ScannerClient() {
         setSelectedFindingId(data.findings[0].id);
       }
     } catch (err: unknown) {
-      alert((err as Error).message || "An error occurred.");
+      setNoticeMessage((err as Error).message || "Scan failed. Please try again.");
     } finally {
       setIsScanning(false);
     }
@@ -296,7 +297,7 @@ function ScannerClient() {
       setActiveTab("editor");
       setTimeout(() => setSuccessMessage(null), 4000);
     } catch (err: unknown) {
-      alert((err as Error).message || "Failed to import GitHub file.");
+      setNoticeMessage((err as Error).message || "Failed to import GitHub file.");
     } finally {
       setIsFileLoading(false);
     }
@@ -347,7 +348,7 @@ function ScannerClient() {
         setSelectedFindingId(`${allFindings[0].id}:${allFindings[0].filePath}`);
       }
     } catch (err: unknown) {
-      alert((err as Error).message || "Failed to run repository scan.");
+      setNoticeMessage((err as Error).message || "Failed to run repository scan.");
     } finally {
       setIsRepoScanning(false);
     }
@@ -393,7 +394,7 @@ function ScannerClient() {
         setTimeout(() => setSuccessMessage(null), 4000);
       })
       .catch(() => {
-        alert("Applied fix, but failed to re-scan automatically.");
+        setNoticeMessage("Applied fix, but the automatic re-scan failed.");
       })
       .finally(() => {
         setIsScanning(false);
@@ -490,7 +491,7 @@ function ScannerClient() {
         }
       })
       .catch(() => {
-        alert("Failed to load file contents from GitHub into editor.");
+        setNoticeMessage("Failed to load file contents from GitHub into editor.");
       })
       .finally(() => {
         setIsScanning(false);
@@ -500,7 +501,8 @@ function ScannerClient() {
   // Diff download/copy helpers
   const handleCopyText = (text: string, msg: string) => {
     navigator.clipboard.writeText(text);
-    alert(msg);
+    setSuccessMessage(msg);
+    setTimeout(() => setSuccessMessage(null), 4000);
   };
 
   const handleDownloadFile = (filename: string, content: string) => {
