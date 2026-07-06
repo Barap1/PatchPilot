@@ -82,7 +82,7 @@ export default function LandingPage() {
                   </div>
                   <div className="p-6 font-mono text-[11px] overflow-x-auto leading-relaxed text-left">
                     <div className="text-slate-600 mb-2 font-bold select-none">@@ -1,3 +1,3 @@</div>
-                    <div className="text-slate-400 mb-1 select-none">  // Unsafe query string build</div>
+                    <div className="text-slate-400 mb-1 select-none">{"  // Unsafe query string build"}</div>
                     <div className="bg-red-500/10 text-red-400 px-3.5 py-2.5 border-l-2 border-red-500 my-2 flex items-start">
                       <span className="mr-3 font-bold select-none text-red-500/50">-</span>
                       <span className="break-all">const sql = &#96;SELECT * FROM accounts WHERE id = &#36;&#123;id&#125;&#96;;</span>
