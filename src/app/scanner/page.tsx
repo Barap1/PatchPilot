@@ -597,36 +597,36 @@ function ScannerClient() {
           <div className="lg:col-span-3 space-y-6">
             
             {/* Tabs Selector Navigation */}
-            <div className="inline-flex p-1 bg-slate-950/60 border border-white/5 backdrop-blur-xl rounded-full shadow-lg shadow-black/20">
+            <div className="inline-flex p-1 bg-slate-950/70 border border-white/8 backdrop-blur">
               <button
                 onClick={() => setActiveTab("editor")}
-                className={`px-4 py-2 font-mono text-[10px] uppercase tracking-wider rounded-full transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] cursor-pointer ${
+                className={`px-4 py-2 font-mono text-[10px] uppercase tracking-wider transition-colors duration-200 cursor-pointer ${
                   activeTab === "editor"
                     ? "bg-accent text-slate-950 font-bold shadow-md shadow-accent/10"
                     : "text-slate-400 hover:text-white"
                 }`}
               >
-                Editor Snippet
+                Editor
               </button>
               <button
                 onClick={() => setActiveTab("github-file")}
-                className={`px-4 py-2 font-mono text-[10px] uppercase tracking-wider rounded-full transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] cursor-pointer ${
+                className={`px-4 py-2 font-mono text-[10px] uppercase tracking-wider transition-colors duration-200 cursor-pointer ${
                   activeTab === "github-file"
                     ? "bg-accent text-slate-950 font-bold shadow-md shadow-accent/10"
                     : "text-slate-400 hover:text-white"
                 }`}
               >
-                GitHub File Loader
+                GitHub file
               </button>
               <button
                 onClick={() => setActiveTab("github-repo")}
-                className={`px-4 py-2 font-mono text-[10px] uppercase tracking-wider rounded-full transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] cursor-pointer ${
+                className={`px-4 py-2 font-mono text-[10px] uppercase tracking-wider transition-colors duration-200 cursor-pointer ${
                   activeTab === "github-repo"
                     ? "bg-accent text-slate-950 font-bold shadow-md shadow-accent/10"
                     : "text-slate-400 hover:text-white"
                 }`}
               >
-                Repository Scanner
+                Repository
               </button>
             </div>
 
