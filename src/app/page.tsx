@@ -154,13 +154,12 @@ export default function LandingPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               
               {/* Box 1 (Span 2) */}
-              <div className="md:col-span-2 rounded-[2rem] border border-white/5 bg-white/5 p-1.5">
-                <div className="rounded-[calc(2rem-0.375rem)] bg-slate-950 p-8 border border-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] h-full flex flex-col justify-between text-left space-y-8">
+              <div className="md:col-span-2 border border-white/8 bg-slate-950 p-8 h-full flex flex-col justify-between text-left space-y-8">
                   <div className="space-y-3">
-                    <span className="px-2.5 py-0.5 rounded-full bg-accent/10 border border-accent/20 text-[9px] font-mono uppercase tracking-wider text-accent">Confidentiality</span>
-                    <h3 className="text-xl font-bold text-white tracking-tight">100% Client-Side Evaluation</h3>
+                    <span className="text-[9px] font-mono uppercase tracking-wider text-accent">Confidentiality</span>
+                    <h3 className="text-xl font-bold text-white tracking-tight">Client-side checks</h3>
                     <p className="text-xs text-slate-400 leading-relaxed max-w-md">
-                      Code stays in your browser memory. Deterministic static patterns evaluate locally, guaranteeing zero data leakage or third-party server exposure.
+                      Pasted code is evaluated against deterministic rules in the browser workflow instead of being sent to a model endpoint.
                     </p>
                   </div>
                   <div className="flex space-x-2 pt-4 border-t border-white/5 font-mono text-[10px] text-slate-500">
