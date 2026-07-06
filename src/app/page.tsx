@@ -167,7 +167,6 @@ export default function LandingPage() {
                     <span>&bull;</span>
                     <span>✓ Zero API Requests</span>
                   </div>
-                </div>
               </div>
 
               {/* Box 2 (Span 1) */}
