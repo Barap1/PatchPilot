@@ -100,12 +100,12 @@ export default function LandingPage() {
         </section>
 
         {/* Step-by-Step Flow Section */}
-        <section className="border-t border-white/5 py-24 bg-slate-900/10 relative overflow-hidden">
-          <div className="max-w-5xl mx-auto px-6">
+        <section className="py-20 bg-slate-900/20 relative overflow-hidden">
+          <div className="max-w-6xl mx-auto px-5">
             <div className="text-left max-w-2xl mb-20 space-y-4">
               <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-accent font-bold">Workflow</span>
               <h2 className="text-3xl md:text-5xl font-display font-extrabold text-white tracking-tight leading-none">
-                Scan, audit, and patch in seconds.
+                From snippet to review note.
               </h2>
             </div>
             
@@ -113,25 +113,24 @@ export default function LandingPage() {
               {[
                 {
                   step: "01",
-                  title: "Load Code",
-                  desc: "Paste script snippets directly, or import public files and full repositories directly via GitHub parameters."
+                  title: "Load code",
+                  desc: "Paste a snippet or pull a public GitHub file into the scanner workspace."
                 },
                 {
                   step: "02",
-                  title: "Local Scan",
-                  desc: "Analyzes structures locally in browser sandboxes. No external APIs process your source code."
+                  title: "Run rules",
+                  desc: "Deterministic checks flag common injection, secret, CORS, path, and logging risks."
                 },
                 {
                   step: "03",
-                  title: "Apply Patch",
-                  desc: "Examine vulnerability summaries, view secure recommendations, and download git-style patch recommendations."
+                  title: "Review patch",
+                  desc: "Read the finding, inspect evidence, and copy the safer replacement or report."
                 }
               ].map((item, idx) => (
                 <div key={idx} className="relative group">
-                  {/* Double-Bezel Card */}
-                  <div className="rounded-2xl border border-white/5 bg-white/5 p-1.5 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:border-accent/10 group-hover:bg-accent/5">
-                    <div className="rounded-[calc(1.5rem-0.375rem)] bg-slate-950 p-6 border border-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] space-y-4 text-left">
-                      <div className="font-mono text-3xl font-black text-accent/20 tracking-tighter transition-colors duration-500 group-hover:text-accent/30">{item.step}</div>
+                  <div className="border border-white/8 bg-slate-950 p-6 transition-colors duration-200 group-hover:border-accent/30">
+                    <div className="space-y-4 text-left">
+                      <div className="font-mono text-3xl font-black text-accent/25 tracking-tighter">{item.step}</div>
                       <h3 className="text-base font-bold text-white tracking-tight">{item.title}</h3>
                       <p className="text-xs text-slate-400 leading-relaxed">{item.desc}</p>
                     </div>
