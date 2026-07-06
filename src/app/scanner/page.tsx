@@ -566,10 +566,6 @@ function ScannerClient() {
 
   return (
     <div className="flex flex-col min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-accent selection:text-slate-950 relative overflow-hidden">
-      
-      {/* Decorative Glowing Background Orbs */}
-      <div className="absolute top-[-10%] left-[-20%] w-[50vw] h-[50vw] rounded-full bg-radial from-accent/5 to-transparent blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-radial from-blue-500/5 to-transparent blur-[120px] pointer-events-none" />
 
       {/* Header */}
       <header className="border-b border-white/5 bg-slate-950/40 backdrop-blur-xl sticky top-0 z-40 shadow-lg shadow-black/20">
