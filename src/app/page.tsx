@@ -52,23 +52,18 @@ export default function LandingPage() {
                 PatchPilot checks pasted code and public GitHub files for common security mistakes, then returns concrete remediation notes and diff-ready patch suggestions.
               </p>
               
-              <div className="flex flex-row items-center gap-4">
+              <div className="flex flex-wrap items-center gap-3">
                 <Link
                   href="/scanner?case=sql-injection"
-                  className="group inline-flex items-center justify-center pl-6 pr-2.5 py-3 text-xs font-mono uppercase tracking-wider text-slate-950 bg-accent hover:bg-emerald-400 rounded-full font-bold transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] cursor-pointer active:scale-[0.98]"
+                  className="inline-flex items-center justify-center rounded-md bg-accent px-5 py-3 text-xs font-bold uppercase tracking-wider text-slate-950 transition-colors duration-200 hover:bg-accent-hover cursor-pointer active:translate-y-px"
                 >
-                  <span>Verify Demo</span>
-                  <div className="w-8 h-8 rounded-full bg-slate-950/15 flex items-center justify-center ml-3.5 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1">
-                    <svg className="w-4 h-4 text-slate-950" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7-7 7M5 5l7 7-7 7" />
-                    </svg>
-                  </div>
+                  Run demo scan
                 </Link>
                 <Link
                   href="/scanner"
-                  className="inline-flex items-center justify-center px-6 py-3.5 text-xs font-mono uppercase tracking-wider text-white bg-slate-900/60 border border-white/5 hover:border-white/10 rounded-full font-semibold transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] cursor-pointer hover:bg-slate-800/40 active:scale-[0.98]"
+                  className="inline-flex items-center justify-center rounded-md border border-white/10 bg-slate-900/60 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-white transition-colors duration-200 hover:bg-slate-800/70 cursor-pointer active:translate-y-px"
                 >
-                  Paste Snippet
+                  Open scanner
                 </Link>
               </div>
             </div>
