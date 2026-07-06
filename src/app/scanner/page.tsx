@@ -245,6 +245,7 @@ function ScannerClient() {
     setSelectedFindingId(null);
     setAiExplanation(null);
     setAiError(null);
+    setNoticeMessage(null);
     try {
       const res = await fetch("/api/scan", {
         method: "POST",
@@ -275,6 +276,7 @@ function ScannerClient() {
     if (!githubFileUrl.trim()) return;
 
     setIsFileLoading(true);
+    setNoticeMessage(null);
     try {
       const res = await fetch("/api/github/file", {
         method: "POST",
@@ -313,6 +315,7 @@ function ScannerClient() {
     setSelectedFindingId(null);
     setAiExplanation(null);
     setAiError(null);
+    setNoticeMessage(null);
     try {
       const res = await fetch("/api/github/repo-scan", {
         method: "POST",
@@ -375,6 +378,7 @@ function ScannerClient() {
     setCode(newCode);
     setAiExplanation(null);
     setAiError(null);
+    setNoticeMessage(null);
 
     // Auto-rescan after applying fix
     setIsScanning(true);
