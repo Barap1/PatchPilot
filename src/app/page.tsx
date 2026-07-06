@@ -2,18 +2,12 @@ import Link from "next/link";
 
 export default function LandingPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-accent selection:text-slate-950 relative">
-      
-      {/* Decorative Glowing Background Orbs */}
-      <div className="absolute top-[-10%] left-[-20%] w-[60vw] h-[60vw] rounded-full bg-radial from-accent/5 to-transparent blur-[120px] pointer-events-none" />
-      <div className="absolute top-[30%] right-[-20%] w-[50vw] h-[50vw] rounded-full bg-radial from-blue-500/5 to-transparent blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] left-[10%] w-[40vw] h-[40vw] rounded-full bg-radial from-emerald-500/5 to-transparent blur-[120px] pointer-events-none" />
+    <div className="flex min-h-screen flex-col bg-slate-950 text-slate-100 font-sans selection:bg-accent selection:text-slate-950 relative">
 
-      {/* Floating Glassmorphism Navigation Bar */}
-      <header className="fixed top-6 left-4 right-4 z-50 max-w-5xl mx-auto">
-        <div className="backdrop-blur-xl bg-slate-950/40 border border-white/5 rounded-full px-6 py-3 shadow-2xl flex items-center justify-between shadow-black/40">
+      <header className="sticky top-0 z-50 border-b border-white/8 bg-slate-950/92 backdrop-blur">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
           <Link href="/" className="flex items-center space-x-3 cursor-pointer group">
-            <div className="p-1.5 bg-accent/15 border border-accent/20 rounded-lg group-hover:scale-105 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]">
+            <div className="p-1.5 bg-accent/12 border border-accent/25 rounded-md group-hover:border-accent/50 transition-colors duration-200">
               <svg className="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
@@ -31,23 +25,18 @@ export default function LandingPage() {
             </Link>
             <Link
               href="/scanner?case=sql-injection"
-              className="group inline-flex items-center justify-center pl-4 pr-1.5 py-1.5 text-[11px] font-mono uppercase tracking-wider text-slate-950 bg-accent hover:bg-emerald-400 rounded-full font-bold transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] cursor-pointer active:scale-98"
+              className="group inline-flex items-center justify-center rounded-md bg-accent px-4 py-2 text-[11px] font-bold uppercase tracking-wider text-slate-950 transition-colors duration-200 hover:bg-accent-hover cursor-pointer active:translate-y-px"
             >
-              <span>Demo Scan</span>
-              <div className="w-6 h-6 rounded-full bg-slate-950/10 flex items-center justify-center ml-2.5 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5">
-                <svg className="w-3.5 h-3.5 text-slate-950" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
-                </svg>
-              </div>
+              Demo scan
             </Link>
           </div>
         </div>
       </header>
 
       {/* Hero Section - Product Pitch and Primary CTAs */}
-      <main className="flex-grow pt-32">
-        <section className="relative overflow-visible py-24 md:py-36">
-          <div className="max-w-5xl mx-auto px-6 grid lg:grid-cols-12 gap-16 items-center">
+      <main className="flex-grow">
+        <section className="relative overflow-hidden border-b border-white/8 py-20 md:py-28">
+          <div className="mx-auto grid max-w-6xl items-center gap-14 px-5 lg:grid-cols-12">
             
             {/* Left Content Column */}
             <div className="lg:col-span-7 space-y-8 text-left">
