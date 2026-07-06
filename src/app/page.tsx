@@ -169,12 +169,10 @@ export default function LandingPage() {
                   </div>
               </div>
 
-              {/* Box 2 (Span 1) */}
-              <div className="rounded-[2rem] border border-white/5 bg-white/5 p-1.5">
-                <div className="rounded-[calc(2rem-0.375rem)] bg-slate-950 p-8 border border-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] h-full flex flex-col justify-between text-left space-y-6">
+              <div className="border border-white/8 bg-slate-950 p-8 h-full flex flex-col justify-between text-left space-y-6">
                   <div className="space-y-3">
-                    <span className="px-2.5 py-0.5 rounded-full bg-red-500/10 border border-red-500/20 text-[9px] font-mono uppercase tracking-wider text-red-400">Security</span>
-                    <h3 className="text-xl font-bold text-white tracking-tight">Secret Redaction</h3>
+                    <span className="text-[9px] font-mono uppercase tracking-wider text-red-400">Security</span>
+                    <h3 className="text-xl font-bold text-white tracking-tight">Secret redaction</h3>
                     <p className="text-xs text-slate-400 leading-relaxed">
                       API tokens and credentials (like `sk-...`) are automatically masked inside reports, logs, and outputs.
                     </p>
@@ -182,7 +180,6 @@ export default function LandingPage() {
                   <div className="font-mono text-[9px] bg-slate-900 px-3 py-1.5 rounded-lg text-slate-500 select-none truncate">
                     sk-proj-aB1c...REDACTED...s8T9u
                   </div>
-                </div>
               </div>
 
               {/* Box 3 (Span 1) */}
