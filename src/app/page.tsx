@@ -40,20 +40,16 @@ export default function LandingPage() {
             
             {/* Left Content Column */}
             <div className="lg:col-span-7 space-y-8 text-left">
-              <div className="inline-flex items-center space-x-2.5 px-3.5 py-1.5 rounded-full border border-white/5 bg-white/5 backdrop-blur-md">
-                <span className="flex h-1.5 w-1.5 relative">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-accent"></span>
-                </span>
-                <span className="text-[10px] font-mono uppercase tracking-[0.2em] font-medium text-slate-400">01 / Local Sandbox SAST</span>
+              <div className="inline-flex items-center gap-2 border-l-2 border-accent pl-3">
+                <span className="text-[10px] font-mono uppercase tracking-[0.18em] font-medium text-slate-400">Local scanner / patch drafts</span>
               </div>
               
               <h1 className="text-4xl md:text-6xl font-display font-extrabold tracking-tighter text-white leading-[1.05] text-balance">
-                Deterministic security analysis with <span className="text-accent bg-gradient-to-r from-accent to-emerald-400 bg-clip-text text-transparent">instant patches</span>.
+                Find risky code paths before review turns slow.
               </h1>
               
               <p className="text-base md:text-lg text-slate-400 leading-relaxed max-w-xl">
-                Scan scripts for critical secrets, SQL injections, and command execution flaws. PatchPilot generates git-style code recommendations entirely in-browser.
+                PatchPilot checks pasted code and public GitHub files for common security mistakes, then returns concrete remediation notes and diff-ready patch suggestions.
               </p>
               
               <div className="flex flex-row items-center gap-4">
