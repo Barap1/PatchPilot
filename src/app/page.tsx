@@ -163,9 +163,9 @@ export default function LandingPage() {
                     </p>
                   </div>
                   <div className="flex space-x-2 pt-4 border-t border-white/5 font-mono text-[10px] text-slate-500">
-                    <span>✓ Sandbox Safe</span>
+                    <span>Local scan</span>
                     <span>&bull;</span>
-                    <span>✓ Zero API Requests</span>
+                    <span>No AI upload required</span>
                   </div>
               </div>
 
@@ -204,9 +204,9 @@ export default function LandingPage() {
                     </p>
                   </div>
                   <div className="flex space-x-2 pt-4 border-t border-white/5 font-mono text-[10px] text-slate-500">
-                    <span>✓ ISO Aligned</span>
+                    <span>Audit ready</span>
                     <span>&bull;</span>
-                    <span>✓ Industry Standard Reporting</span>
+                    <span>Standard references</span>
                   </div>
               </div>
 
