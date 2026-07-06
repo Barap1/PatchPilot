@@ -257,17 +257,19 @@ export default function LandingPage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-white/5 bg-slate-950 py-16 relative z-10">
-        <div className="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
+      <footer className="border-t border-white/8 bg-slate-950 py-14 relative z-10">
+        <div className="max-w-6xl mx-auto px-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
           <div className="text-left space-y-2">
             <div className="font-mono text-base font-bold text-white">PatchPilot</div>
             <p className="text-xs text-slate-500 max-w-sm leading-relaxed">
-              PatchPilot is an agent-friendly deterministic static analysis security tool. Ensure all generated patch suggestions are reviewed prior to production deployment.
+              Deterministic static analysis for common code review risks. Review every patch suggestion before production use.
             </p>
           </div>
           <div className="flex flex-col sm:items-end space-y-2 text-xs text-slate-500">
-            <div className="flex space-x-4">
+            <div className="flex flex-wrap gap-x-4 gap-y-2">
               <Link href="/scanner" className="hover:text-slate-300">Scanner Workspace</Link>
+              <span className="text-slate-700" aria-disabled="true">Privacy</span>
+              <span className="text-slate-700" aria-disabled="true">Terms</span>
             </div>
             <span>&copy; {new Date().getFullYear()} PatchPilot. All rights reserved.</span>
           </div>
