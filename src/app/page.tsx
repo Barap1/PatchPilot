@@ -70,28 +70,24 @@ export default function LandingPage() {
 
             {/* Right Visual Column (Double-Bezel Code Diff Mockup) */}
             <div className="lg:col-span-5 relative">
-              <div className="absolute inset-0 bg-accent/10 rounded-[2.5rem] blur-3xl -z-10 animate-pulse-slow" />
-              
-              {/* Outer Shell */}
-              <div className="rounded-[2.5rem] border border-white/5 bg-white/5 p-2.5 shadow-2xl shadow-black/80">
-                {/* Inner Core */}
-                <div className="rounded-[calc(2.5rem-0.625rem)] bg-slate-950 border border-white/5 overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)]">
-                  <div className="bg-slate-900/40 px-5 py-3.5 border-b border-white/5 flex items-center justify-between">
+              <div className="border border-white/10 bg-slate-900/55 shadow-2xl shadow-black/50">
+                <div className="bg-slate-950 border border-white/5 overflow-hidden">
+                  <div className="bg-slate-900/70 px-5 py-3.5 border-b border-white/8 flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <div className="w-3 h-3 rounded-full bg-red-500/60" />
-                      <div className="w-3 h-3 rounded-full bg-yellow-500/60" />
-                      <div className="w-3 h-3 rounded-full bg-green-500/60" />
+                      <div className="w-2.5 h-2.5 rounded-sm bg-red-500/70" />
+                      <div className="w-2.5 h-2.5 rounded-sm bg-yellow-500/70" />
+                      <div className="w-2.5 h-2.5 rounded-sm bg-accent/70" />
                     </div>
                     <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">query-safety.diff</span>
                   </div>
                   <div className="p-6 font-mono text-[11px] overflow-x-auto leading-relaxed text-left">
                     <div className="text-slate-600 mb-2 font-bold select-none">@@ -1,3 +1,3 @@</div>
                     <div className="text-slate-400 mb-1 select-none">  // Unsafe query string build</div>
-                    <div className="bg-red-500/10 text-red-400 px-3.5 py-2.5 rounded-xl border border-red-500/20 my-2 flex items-start">
+                    <div className="bg-red-500/10 text-red-400 px-3.5 py-2.5 border-l-2 border-red-500 my-2 flex items-start">
                       <span className="mr-3 font-bold select-none text-red-500/50">-</span>
                       <span className="break-all">const sql = &#96;SELECT * FROM accounts WHERE id = &#36;&#123;id&#125;&#96;;</span>
                     </div>
-                    <div className="bg-emerald-500/10 text-emerald-400 px-3.5 py-2.5 rounded-xl border border-emerald-500/20 my-2 flex items-start">
+                    <div className="bg-emerald-500/10 text-emerald-400 px-3.5 py-2.5 border-l-2 border-accent my-2 flex items-start">
                       <span className="mr-3 font-bold select-none text-emerald-500/50">+</span>
                       <span className="break-all">const sql = &apos;SELECT * FROM accounts WHERE id = ?&apos;;</span>
                     </div>
