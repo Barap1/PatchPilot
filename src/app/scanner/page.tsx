@@ -186,6 +186,7 @@ function ScannerClient() {
   const [result, setResult] = useState<ScanResult | null>(null);
   const [isScanning, setIsScanning] = useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [noticeMessage, setNoticeMessage] = useState<string | null>(null);
   const [sourcePath, setSourcePath] = useState<string | null>(null);
 
   // GitHub Single File Import States
@@ -244,6 +245,7 @@ function ScannerClient() {
     setSelectedFindingId(null);
     setAiExplanation(null);
     setAiError(null);
+    setNoticeMessage(null);
     try {
       const res = await fetch("/api/scan", {
         method: "POST",
@@ -262,7 +264,7 @@ function ScannerClient() {
         setSelectedFindingId(data.findings[0].id);
       }
     } catch (err: unknown) {
-      alert((err as Error).message || "An error occurred.");
+      setNoticeMessage((err as Error).message || "Scan failed. Please try again.");
     } finally {
       setIsScanning(false);
     }
@@ -274,6 +276,7 @@ function ScannerClient() {
     if (!githubFileUrl.trim()) return;
 
     setIsFileLoading(true);
+    setNoticeMessage(null);
     try {
       const res = await fetch("/api/github/file", {
         method: "POST",
@@ -296,7 +299,7 @@ function ScannerClient() {
       setActiveTab("editor");
       setTimeout(() => setSuccessMessage(null), 4000);
     } catch (err: unknown) {
-      alert((err as Error).message || "Failed to import GitHub file.");
+      setNoticeMessage((err as Error).message || "Failed to import GitHub file.");
     } finally {
       setIsFileLoading(false);
     }
@@ -312,6 +315,7 @@ function ScannerClient() {
     setSelectedFindingId(null);
     setAiExplanation(null);
     setAiError(null);
+    setNoticeMessage(null);
     try {
       const res = await fetch("/api/github/repo-scan", {
         method: "POST",
@@ -347,7 +351,7 @@ function ScannerClient() {
         setSelectedFindingId(`${allFindings[0].id}:${allFindings[0].filePath}`);
       }
     } catch (err: unknown) {
-      alert((err as Error).message || "Failed to run repository scan.");
+      setNoticeMessage((err as Error).message || "Failed to run repository scan.");
     } finally {
       setIsRepoScanning(false);
     }
@@ -374,6 +378,7 @@ function ScannerClient() {
     setCode(newCode);
     setAiExplanation(null);
     setAiError(null);
+    setNoticeMessage(null);
 
     // Auto-rescan after applying fix
     setIsScanning(true);
@@ -393,7 +398,7 @@ function ScannerClient() {
         setTimeout(() => setSuccessMessage(null), 4000);
       })
       .catch(() => {
-        alert("Applied fix, but failed to re-scan automatically.");
+        setNoticeMessage("Applied fix, but the automatic re-scan failed.");
       })
       .finally(() => {
         setIsScanning(false);
@@ -490,7 +495,7 @@ function ScannerClient() {
         }
       })
       .catch(() => {
-        alert("Failed to load file contents from GitHub into editor.");
+        setNoticeMessage("Failed to load file contents from GitHub into editor.");
       })
       .finally(() => {
         setIsScanning(false);
@@ -500,7 +505,8 @@ function ScannerClient() {
   // Diff download/copy helpers
   const handleCopyText = (text: string, msg: string) => {
     navigator.clipboard.writeText(text);
-    alert(msg);
+    setSuccessMessage(msg);
+    setTimeout(() => setSuccessMessage(null), 4000);
   };
 
   const handleDownloadFile = (filename: string, content: string) => {
@@ -560,16 +566,12 @@ function ScannerClient() {
 
   return (
     <div className="flex flex-col min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-accent selection:text-slate-950 relative overflow-hidden">
-      
-      {/* Decorative Glowing Background Orbs */}
-      <div className="absolute top-[-10%] left-[-20%] w-[50vw] h-[50vw] rounded-full bg-radial from-accent/5 to-transparent blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-radial from-blue-500/5 to-transparent blur-[120px] pointer-events-none" />
 
       {/* Header */}
-      <header className="border-b border-white/5 bg-slate-950/40 backdrop-blur-xl sticky top-0 z-40 shadow-lg shadow-black/20">
+      <header className="border-b border-white/8 bg-slate-950/92 backdrop-blur sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-3 cursor-pointer group">
-            <div className="p-1.5 bg-accent/15 border border-accent/20 rounded-lg group-hover:scale-105 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]">
+            <div className="p-1.5 bg-accent/12 border border-accent/25 rounded-md group-hover:border-accent/50 transition-colors duration-200">
               <svg className="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
@@ -579,9 +581,9 @@ function ScannerClient() {
             </span>
           </Link>
           <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2 text-[10px] font-mono bg-white/5 border border-white/5 px-3 py-1 rounded-full text-slate-400">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-              <span>Local Engine Active</span>
+            <div className="flex items-center space-x-2 text-[10px] font-mono border border-white/8 px-3 py-1 text-slate-400">
+              <span className="w-1.5 h-1.5 rounded-sm bg-accent" />
+              <span>Local rules active</span>
             </div>
           </div>
         </div>
@@ -595,36 +597,36 @@ function ScannerClient() {
           <div className="lg:col-span-3 space-y-6">
             
             {/* Tabs Selector Navigation */}
-            <div className="inline-flex p-1 bg-slate-950/60 border border-white/5 backdrop-blur-xl rounded-full shadow-lg shadow-black/20">
+            <div className="inline-flex p-1 bg-slate-950/70 border border-white/8 backdrop-blur">
               <button
                 onClick={() => setActiveTab("editor")}
-                className={`px-4 py-2 font-mono text-[10px] uppercase tracking-wider rounded-full transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] cursor-pointer ${
+                className={`px-4 py-2 font-mono text-[10px] uppercase tracking-wider transition-colors duration-200 cursor-pointer ${
                   activeTab === "editor"
                     ? "bg-accent text-slate-950 font-bold shadow-md shadow-accent/10"
                     : "text-slate-400 hover:text-white"
                 }`}
               >
-                Editor Snippet
+                Editor
               </button>
               <button
                 onClick={() => setActiveTab("github-file")}
-                className={`px-4 py-2 font-mono text-[10px] uppercase tracking-wider rounded-full transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] cursor-pointer ${
+                className={`px-4 py-2 font-mono text-[10px] uppercase tracking-wider transition-colors duration-200 cursor-pointer ${
                   activeTab === "github-file"
                     ? "bg-accent text-slate-950 font-bold shadow-md shadow-accent/10"
                     : "text-slate-400 hover:text-white"
                 }`}
               >
-                GitHub File Loader
+                GitHub file
               </button>
               <button
                 onClick={() => setActiveTab("github-repo")}
-                className={`px-4 py-2 font-mono text-[10px] uppercase tracking-wider rounded-full transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] cursor-pointer ${
+                className={`px-4 py-2 font-mono text-[10px] uppercase tracking-wider transition-colors duration-200 cursor-pointer ${
                   activeTab === "github-repo"
                     ? "bg-accent text-slate-950 font-bold shadow-md shadow-accent/10"
                     : "text-slate-400 hover:text-white"
                 }`}
               >
-                Repository Scanner
+                Repository
               </button>
             </div>
 
@@ -926,6 +928,18 @@ function ScannerClient() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <span>{successMessage}</span>
+              </div>
+            )}
+            {noticeMessage && (
+              <div className="p-3.5 bg-red-500/10 border border-red-500/25 rounded-xl text-red-300 text-xs font-mono flex items-center justify-between gap-3 animate-fadeIn">
+                <span>{noticeMessage}</span>
+                <button
+                  onClick={() => setNoticeMessage(null)}
+                  className="text-red-200/70 hover:text-red-100 transition-colors"
+                  aria-label="Dismiss notice"
+                >
+                  Dismiss
+                </button>
               </div>
             )}
           </div>

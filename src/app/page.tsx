@@ -2,18 +2,12 @@ import Link from "next/link";
 
 export default function LandingPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-accent selection:text-slate-950 relative">
-      
-      {/* Decorative Glowing Background Orbs */}
-      <div className="absolute top-[-10%] left-[-20%] w-[60vw] h-[60vw] rounded-full bg-radial from-accent/5 to-transparent blur-[120px] pointer-events-none" />
-      <div className="absolute top-[30%] right-[-20%] w-[50vw] h-[50vw] rounded-full bg-radial from-blue-500/5 to-transparent blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] left-[10%] w-[40vw] h-[40vw] rounded-full bg-radial from-emerald-500/5 to-transparent blur-[120px] pointer-events-none" />
+    <div className="flex min-h-screen flex-col bg-slate-950 text-slate-100 font-sans selection:bg-accent selection:text-slate-950 relative">
 
-      {/* Floating Glassmorphism Navigation Bar */}
-      <header className="fixed top-6 left-4 right-4 z-50 max-w-5xl mx-auto">
-        <div className="backdrop-blur-xl bg-slate-950/40 border border-white/5 rounded-full px-6 py-3 shadow-2xl flex items-center justify-between shadow-black/40">
+      <header className="sticky top-0 z-50 border-b border-white/8 bg-slate-950/92 backdrop-blur">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
           <Link href="/" className="flex items-center space-x-3 cursor-pointer group">
-            <div className="p-1.5 bg-accent/15 border border-accent/20 rounded-lg group-hover:scale-105 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]">
+            <div className="p-1.5 bg-accent/12 border border-accent/25 rounded-md group-hover:border-accent/50 transition-colors duration-200">
               <svg className="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
@@ -31,87 +25,69 @@ export default function LandingPage() {
             </Link>
             <Link
               href="/scanner?case=sql-injection"
-              className="group inline-flex items-center justify-center pl-4 pr-1.5 py-1.5 text-[11px] font-mono uppercase tracking-wider text-slate-950 bg-accent hover:bg-emerald-400 rounded-full font-bold transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] cursor-pointer active:scale-98"
+              className="group inline-flex items-center justify-center rounded-md bg-accent px-4 py-2 text-[11px] font-bold uppercase tracking-wider text-slate-950 transition-colors duration-200 hover:bg-accent-hover cursor-pointer active:translate-y-px"
             >
-              <span>Demo Scan</span>
-              <div className="w-6 h-6 rounded-full bg-slate-950/10 flex items-center justify-center ml-2.5 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5">
-                <svg className="w-3.5 h-3.5 text-slate-950" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
-                </svg>
-              </div>
+              Demo scan
             </Link>
           </div>
         </div>
       </header>
 
       {/* Hero Section - Product Pitch and Primary CTAs */}
-      <main className="flex-grow pt-32">
-        <section className="relative overflow-visible py-24 md:py-36">
-          <div className="max-w-5xl mx-auto px-6 grid lg:grid-cols-12 gap-16 items-center">
+      <main className="flex-grow">
+        <section className="relative overflow-hidden border-b border-white/8 py-20 md:py-28">
+          <div className="mx-auto grid max-w-6xl items-center gap-14 px-5 lg:grid-cols-12">
             
             {/* Left Content Column */}
             <div className="lg:col-span-7 space-y-8 text-left">
-              <div className="inline-flex items-center space-x-2.5 px-3.5 py-1.5 rounded-full border border-white/5 bg-white/5 backdrop-blur-md">
-                <span className="flex h-1.5 w-1.5 relative">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-accent"></span>
-                </span>
-                <span className="text-[10px] font-mono uppercase tracking-[0.2em] font-medium text-slate-400">01 / Local Sandbox SAST</span>
+              <div className="inline-flex items-center gap-2 border-l-2 border-accent pl-3">
+                <span className="text-[10px] font-mono uppercase tracking-[0.18em] font-medium text-slate-400">Local scanner / patch drafts</span>
               </div>
               
               <h1 className="text-4xl md:text-6xl font-display font-extrabold tracking-tighter text-white leading-[1.05] text-balance">
-                Deterministic security analysis with <span className="text-accent bg-gradient-to-r from-accent to-emerald-400 bg-clip-text text-transparent">instant patches</span>.
+                Find risky code paths before review turns slow.
               </h1>
               
               <p className="text-base md:text-lg text-slate-400 leading-relaxed max-w-xl">
-                Scan scripts for critical secrets, SQL injections, and command execution flaws. PatchPilot generates git-style code recommendations entirely in-browser.
+                PatchPilot checks pasted code and public GitHub files for common security mistakes, then returns concrete remediation notes and diff-ready patch suggestions.
               </p>
               
-              <div className="flex flex-row items-center gap-4">
+              <div className="flex flex-wrap items-center gap-3">
                 <Link
                   href="/scanner?case=sql-injection"
-                  className="group inline-flex items-center justify-center pl-6 pr-2.5 py-3 text-xs font-mono uppercase tracking-wider text-slate-950 bg-accent hover:bg-emerald-400 rounded-full font-bold transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] cursor-pointer active:scale-[0.98]"
+                  className="inline-flex items-center justify-center rounded-md bg-accent px-5 py-3 text-xs font-bold uppercase tracking-wider text-slate-950 transition-colors duration-200 hover:bg-accent-hover cursor-pointer active:translate-y-px"
                 >
-                  <span>Verify Demo</span>
-                  <div className="w-8 h-8 rounded-full bg-slate-950/15 flex items-center justify-center ml-3.5 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1">
-                    <svg className="w-4 h-4 text-slate-950" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7-7 7M5 5l7 7-7 7" />
-                    </svg>
-                  </div>
+                  Run demo scan
                 </Link>
                 <Link
                   href="/scanner"
-                  className="inline-flex items-center justify-center px-6 py-3.5 text-xs font-mono uppercase tracking-wider text-white bg-slate-900/60 border border-white/5 hover:border-white/10 rounded-full font-semibold transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] cursor-pointer hover:bg-slate-800/40 active:scale-[0.98]"
+                  className="inline-flex items-center justify-center rounded-md border border-white/10 bg-slate-900/60 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-white transition-colors duration-200 hover:bg-slate-800/70 cursor-pointer active:translate-y-px"
                 >
-                  Paste Snippet
+                  Open scanner
                 </Link>
               </div>
             </div>
 
             {/* Right Visual Column (Double-Bezel Code Diff Mockup) */}
             <div className="lg:col-span-5 relative">
-              <div className="absolute inset-0 bg-accent/10 rounded-[2.5rem] blur-3xl -z-10 animate-pulse-slow" />
-              
-              {/* Outer Shell */}
-              <div className="rounded-[2.5rem] border border-white/5 bg-white/5 p-2.5 shadow-2xl shadow-black/80">
-                {/* Inner Core */}
-                <div className="rounded-[calc(2.5rem-0.625rem)] bg-slate-950 border border-white/5 overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)]">
-                  <div className="bg-slate-900/40 px-5 py-3.5 border-b border-white/5 flex items-center justify-between">
+              <div className="border border-white/10 bg-slate-900/55 shadow-2xl shadow-black/50">
+                <div className="bg-slate-950 border border-white/5 overflow-hidden">
+                  <div className="bg-slate-900/70 px-5 py-3.5 border-b border-white/8 flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <div className="w-3 h-3 rounded-full bg-red-500/60" />
-                      <div className="w-3 h-3 rounded-full bg-yellow-500/60" />
-                      <div className="w-3 h-3 rounded-full bg-green-500/60" />
+                      <div className="w-2.5 h-2.5 rounded-sm bg-red-500/70" />
+                      <div className="w-2.5 h-2.5 rounded-sm bg-yellow-500/70" />
+                      <div className="w-2.5 h-2.5 rounded-sm bg-accent/70" />
                     </div>
                     <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">query-safety.diff</span>
                   </div>
                   <div className="p-6 font-mono text-[11px] overflow-x-auto leading-relaxed text-left">
                     <div className="text-slate-600 mb-2 font-bold select-none">@@ -1,3 +1,3 @@</div>
-                    <div className="text-slate-400 mb-1 select-none">  // Unsafe query string build</div>
-                    <div className="bg-red-500/10 text-red-400 px-3.5 py-2.5 rounded-xl border border-red-500/20 my-2 flex items-start">
+                    <div className="text-slate-400 mb-1 select-none">{"  // Unsafe query string build"}</div>
+                    <div className="bg-red-500/10 text-red-400 px-3.5 py-2.5 border-l-2 border-red-500 my-2 flex items-start">
                       <span className="mr-3 font-bold select-none text-red-500/50">-</span>
                       <span className="break-all">const sql = &#96;SELECT * FROM accounts WHERE id = &#36;&#123;id&#125;&#96;;</span>
                     </div>
-                    <div className="bg-emerald-500/10 text-emerald-400 px-3.5 py-2.5 rounded-xl border border-emerald-500/20 my-2 flex items-start">
+                    <div className="bg-emerald-500/10 text-emerald-400 px-3.5 py-2.5 border-l-2 border-accent my-2 flex items-start">
                       <span className="mr-3 font-bold select-none text-emerald-500/50">+</span>
                       <span className="break-all">const sql = &apos;SELECT * FROM accounts WHERE id = ?&apos;;</span>
                     </div>
@@ -124,12 +100,12 @@ export default function LandingPage() {
         </section>
 
         {/* Step-by-Step Flow Section */}
-        <section className="border-t border-white/5 py-24 bg-slate-900/10 relative overflow-hidden">
-          <div className="max-w-5xl mx-auto px-6">
+        <section className="py-20 bg-slate-900/20 relative overflow-hidden">
+          <div className="max-w-6xl mx-auto px-5">
             <div className="text-left max-w-2xl mb-20 space-y-4">
               <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-accent font-bold">Workflow</span>
               <h2 className="text-3xl md:text-5xl font-display font-extrabold text-white tracking-tight leading-none">
-                Scan, audit, and patch in seconds.
+                From snippet to review note.
               </h2>
             </div>
             
@@ -137,25 +113,24 @@ export default function LandingPage() {
               {[
                 {
                   step: "01",
-                  title: "Load Code",
-                  desc: "Paste script snippets directly, or import public files and full repositories directly via GitHub parameters."
+                  title: "Load code",
+                  desc: "Paste a snippet or pull a public GitHub file into the scanner workspace."
                 },
                 {
                   step: "02",
-                  title: "Local Scan",
-                  desc: "Analyzes structures locally in browser sandboxes. No external APIs process your source code."
+                  title: "Run rules",
+                  desc: "Deterministic checks flag common injection, secret, CORS, path, and logging risks."
                 },
                 {
                   step: "03",
-                  title: "Apply Patch",
-                  desc: "Examine vulnerability summaries, view secure recommendations, and download git-style patch recommendations."
+                  title: "Review patch",
+                  desc: "Read the finding, inspect evidence, and copy the safer replacement or report."
                 }
               ].map((item, idx) => (
                 <div key={idx} className="relative group">
-                  {/* Double-Bezel Card */}
-                  <div className="rounded-2xl border border-white/5 bg-white/5 p-1.5 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:border-accent/10 group-hover:bg-accent/5">
-                    <div className="rounded-[calc(1.5rem-0.375rem)] bg-slate-950 p-6 border border-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] space-y-4 text-left">
-                      <div className="font-mono text-3xl font-black text-accent/20 tracking-tighter transition-colors duration-500 group-hover:text-accent/30">{item.step}</div>
+                  <div className="border border-white/8 bg-slate-950 p-6 transition-colors duration-200 group-hover:border-accent/30">
+                    <div className="space-y-4 text-left">
+                      <div className="font-mono text-3xl font-black text-accent/25 tracking-tighter">{item.step}</div>
                       <h3 className="text-base font-bold text-white tracking-tight">{item.title}</h3>
                       <p className="text-xs text-slate-400 leading-relaxed">{item.desc}</p>
                     </div>
@@ -166,43 +141,38 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Bento Grid Features Section */}
-        <section className="border-t border-white/5 py-24">
-          <div className="max-w-5xl mx-auto px-6">
+        {/* Feature system */}
+        <section className="border-t border-white/8 py-20">
+          <div className="max-w-6xl mx-auto px-5">
             <div className="text-left max-w-2xl mb-20 space-y-4">
               <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-accent font-bold">Capabilities</span>
               <h2 className="text-3xl md:text-5xl font-display font-extrabold text-white tracking-tight leading-none">
-                Bento-scale feature system.
+                What the scanner returns.
               </h2>
             </div>
 
-            {/* Bento Layout Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               
               {/* Box 1 (Span 2) */}
-              <div className="md:col-span-2 rounded-[2rem] border border-white/5 bg-white/5 p-1.5">
-                <div className="rounded-[calc(2rem-0.375rem)] bg-slate-950 p-8 border border-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] h-full flex flex-col justify-between text-left space-y-8">
+              <div className="md:col-span-2 border border-white/8 bg-slate-950 p-8 h-full flex flex-col justify-between text-left space-y-8">
                   <div className="space-y-3">
-                    <span className="px-2.5 py-0.5 rounded-full bg-accent/10 border border-accent/20 text-[9px] font-mono uppercase tracking-wider text-accent">Confidentiality</span>
-                    <h3 className="text-xl font-bold text-white tracking-tight">100% Client-Side Evaluation</h3>
+                    <span className="text-[9px] font-mono uppercase tracking-wider text-accent">Confidentiality</span>
+                    <h3 className="text-xl font-bold text-white tracking-tight">Client-side checks</h3>
                     <p className="text-xs text-slate-400 leading-relaxed max-w-md">
-                      Code stays in your browser memory. Deterministic static patterns evaluate locally, guaranteeing zero data leakage or third-party server exposure.
+                      Pasted code is evaluated against deterministic rules in the browser workflow instead of being sent to a model endpoint.
                     </p>
                   </div>
                   <div className="flex space-x-2 pt-4 border-t border-white/5 font-mono text-[10px] text-slate-500">
-                    <span>✓ Sandbox Safe</span>
+                    <span>Local scan</span>
                     <span>&bull;</span>
-                    <span>✓ Zero API Requests</span>
+                    <span>No AI upload required</span>
                   </div>
-                </div>
               </div>
 
-              {/* Box 2 (Span 1) */}
-              <div className="rounded-[2rem] border border-white/5 bg-white/5 p-1.5">
-                <div className="rounded-[calc(2rem-0.375rem)] bg-slate-950 p-8 border border-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] h-full flex flex-col justify-between text-left space-y-6">
+              <div className="border border-white/8 bg-slate-950 p-8 h-full flex flex-col justify-between text-left space-y-6">
                   <div className="space-y-3">
-                    <span className="px-2.5 py-0.5 rounded-full bg-red-500/10 border border-red-500/20 text-[9px] font-mono uppercase tracking-wider text-red-400">Security</span>
-                    <h3 className="text-xl font-bold text-white tracking-tight">Secret Redaction</h3>
+                    <span className="text-[9px] font-mono uppercase tracking-wider text-red-400">Security</span>
+                    <h3 className="text-xl font-bold text-white tracking-tight">Secret redaction</h3>
                     <p className="text-xs text-slate-400 leading-relaxed">
                       API tokens and credentials (like `sk-...`) are automatically masked inside reports, logs, and outputs.
                     </p>
@@ -210,15 +180,12 @@ export default function LandingPage() {
                   <div className="font-mono text-[9px] bg-slate-900 px-3 py-1.5 rounded-lg text-slate-500 select-none truncate">
                     sk-proj-aB1c...REDACTED...s8T9u
                   </div>
-                </div>
               </div>
 
-              {/* Box 3 (Span 1) */}
-              <div className="rounded-[2rem] border border-white/5 bg-white/5 p-1.5">
-                <div className="rounded-[calc(2rem-0.375rem)] bg-slate-950 p-8 border border-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] h-full flex flex-col justify-between text-left space-y-6">
+              <div className="border border-white/8 bg-slate-950 p-8 h-full flex flex-col justify-between text-left space-y-6">
                   <div className="space-y-3">
-                    <span className="px-2.5 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-[9px] font-mono uppercase tracking-wider text-blue-400">Integrations</span>
-                    <h3 className="text-xl font-bold text-white tracking-tight">Repository Scans</h3>
+                    <span className="text-[9px] font-mono uppercase tracking-wider text-blue-400">Integrations</span>
+                    <h3 className="text-xl font-bold text-white tracking-tight">Repository scans</h3>
                     <p className="text-xs text-slate-400 leading-relaxed">
                       Pull whole public repositories dynamically. Scans compatible codebase files recursively.
                     </p>
@@ -226,53 +193,49 @@ export default function LandingPage() {
                   <div className="font-mono text-[10px] text-slate-500">
                     Recursive &bull; Max 25 Files
                   </div>
-                </div>
               </div>
 
-              {/* Box 4 (Span 2) */}
-              <div className="md:col-span-2 rounded-[2rem] border border-white/5 bg-white/5 p-1.5">
-                <div className="rounded-[calc(2rem-0.375rem)] bg-slate-950 p-8 border border-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] h-full flex flex-col justify-between text-left space-y-8">
+              <div className="md:col-span-2 border border-white/8 bg-slate-950 p-8 h-full flex flex-col justify-between text-left space-y-8">
                   <div className="space-y-3">
-                    <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[9px] font-mono uppercase tracking-wider text-emerald-400">Compliance</span>
-                    <h3 className="text-xl font-bold text-white tracking-tight">CWE & OWASP Taxonomy Mapping</h3>
+                    <span className="text-[9px] font-mono uppercase tracking-wider text-emerald-400">Compliance</span>
+                    <h3 className="text-xl font-bold text-white tracking-tight">CWE and OWASP mapping</h3>
                     <p className="text-xs text-slate-400 leading-relaxed max-w-md">
                       Every finding maps directly to recognized standards (e.g., CWE-89 for SQL Injection, CWE-798 for Secrets) and OWASP Top 10 categories, supporting audit readiness.
                     </p>
                   </div>
                   <div className="flex space-x-2 pt-4 border-t border-white/5 font-mono text-[10px] text-slate-500">
-                    <span>✓ ISO Aligned</span>
+                    <span>Audit ready</span>
                     <span>&bull;</span>
-                    <span>✓ Industry Standard Reporting</span>
+                    <span>Standard references</span>
                   </div>
-                </div>
               </div>
 
             </div>
           </div>
         </section>
 
-        {/* Vulnerability Card Grid */}
-        <section className="border-t border-white/5 py-24 bg-slate-900/10">
-          <div className="max-w-5xl mx-auto px-6">
+        {/* Vulnerability coverage */}
+        <section className="border-t border-white/8 py-20 bg-slate-900/20">
+          <div className="max-w-6xl mx-auto px-5">
             <div className="text-left max-w-2xl mb-20 space-y-4">
               <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-accent font-bold">Coverage</span>
               <h2 className="text-3xl md:text-5xl font-display font-extrabold text-white tracking-tight leading-none">
-                Pattern detection index.
+                Detection coverage.
               </h2>
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { title: "Hardcoded Secrets", severity: "Critical", desc: "API keys, secret tokens, private credentials, and AWS access IDs embedded directly in scripts." },
-                { title: "SQL Injection", severity: "Critical", desc: "Unsanitized queries combining user input using string template literals or concatenations." },
-                { title: "Command Injection", severity: "Critical", desc: "Sys shell executions passing raw inputs directly to operational host runtimes." },
-                { title: "Unsafe Eval", severity: "High", desc: "Usage of eval() or dynamic Function constructors allowing arbitrary input execution." },
-                { title: "Insecure CORS", severity: "High", desc: "Origin configurations matching wildcards (*) mixed with credential access flags." },
-                { title: "Path Traversal", severity: "High", desc: "File access queries incorporating user-controlled directory navigation keys." },
-                { title: "Weak Token Gen", severity: "Medium", desc: "Predictable pseudo-random generators utilized in authentication token routines." },
-                { title: "Sensitive Logging", severity: "Medium", desc: "Terminal debugging lines logging raw passwords, auth keys, or private payload logs." }
+                { title: "Hardcoded secrets", severity: "Critical", desc: "API keys, secret tokens, private credentials, and AWS access IDs embedded in scripts." },
+                { title: "SQL injection", severity: "Critical", desc: "Queries that combine user input through template strings or concatenation." },
+                { title: "Command injection", severity: "Critical", desc: "Shell commands that pass raw input into host runtime calls." },
+                { title: "Unsafe eval", severity: "High", desc: "Dynamic JavaScript or Python execution through eval-style APIs." },
+                { title: "Insecure CORS", severity: "High", desc: "Wildcard origin settings combined with credential access." },
+                { title: "Path traversal", severity: "High", desc: "File access that accepts user-controlled directory navigation." },
+                { title: "Weak token generation", severity: "Medium", desc: "Predictable random values used near auth token or reset flows." },
+                { title: "Sensitive logging", severity: "Medium", desc: "Log output that includes passwords, keys, tokens, or private payloads." }
               ].map((vuln, idx) => (
-                <div key={idx} className="p-6 border border-white/5 rounded-2xl bg-slate-950 hover:border-accent/15 hover:bg-accent/[0.02] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] text-left flex flex-col justify-between min-h-[180px]">
+                <div key={idx} className="p-6 border border-white/8 bg-slate-950 hover:border-accent/25 transition-colors duration-200 text-left flex flex-col justify-between min-h-[180px]">
                   <div className="flex items-center justify-between mb-4">
                     <span className={`px-2 py-0.5 rounded text-[9px] font-mono font-bold uppercase ${
                       vuln.severity === "Critical" ? "bg-red-500/10 text-red-400 border border-red-500/20" :
@@ -294,17 +257,19 @@ export default function LandingPage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-white/5 bg-slate-950 py-16 relative z-10">
-        <div className="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
+      <footer className="border-t border-white/8 bg-slate-950 py-14 relative z-10">
+        <div className="max-w-6xl mx-auto px-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
           <div className="text-left space-y-2">
             <div className="font-mono text-base font-bold text-white">PatchPilot</div>
             <p className="text-xs text-slate-500 max-w-sm leading-relaxed">
-              PatchPilot is an agent-friendly deterministic static analysis security tool. Ensure all generated patch suggestions are reviewed prior to production deployment.
+              Deterministic static analysis for common code review risks. Review every patch suggestion before production use.
             </p>
           </div>
           <div className="flex flex-col sm:items-end space-y-2 text-xs text-slate-500">
-            <div className="flex space-x-4">
+            <div className="flex flex-wrap gap-x-4 gap-y-2">
               <Link href="/scanner" className="hover:text-slate-300">Scanner Workspace</Link>
+              <span className="text-slate-700" aria-disabled="true">Privacy</span>
+              <span className="text-slate-700" aria-disabled="true">Terms</span>
             </div>
             <span>&copy; {new Date().getFullYear()} PatchPilot. All rights reserved.</span>
           </div>
