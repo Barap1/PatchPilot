@@ -214,28 +214,28 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Vulnerability Card Grid */}
-        <section className="border-t border-white/5 py-24 bg-slate-900/10">
-          <div className="max-w-5xl mx-auto px-6">
+        {/* Vulnerability coverage */}
+        <section className="border-t border-white/8 py-20 bg-slate-900/20">
+          <div className="max-w-6xl mx-auto px-5">
             <div className="text-left max-w-2xl mb-20 space-y-4">
               <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-accent font-bold">Coverage</span>
               <h2 className="text-3xl md:text-5xl font-display font-extrabold text-white tracking-tight leading-none">
-                Pattern detection index.
+                Detection coverage.
               </h2>
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { title: "Hardcoded Secrets", severity: "Critical", desc: "API keys, secret tokens, private credentials, and AWS access IDs embedded directly in scripts." },
-                { title: "SQL Injection", severity: "Critical", desc: "Unsanitized queries combining user input using string template literals or concatenations." },
-                { title: "Command Injection", severity: "Critical", desc: "Sys shell executions passing raw inputs directly to operational host runtimes." },
-                { title: "Unsafe Eval", severity: "High", desc: "Usage of eval() or dynamic Function constructors allowing arbitrary input execution." },
-                { title: "Insecure CORS", severity: "High", desc: "Origin configurations matching wildcards (*) mixed with credential access flags." },
-                { title: "Path Traversal", severity: "High", desc: "File access queries incorporating user-controlled directory navigation keys." },
-                { title: "Weak Token Gen", severity: "Medium", desc: "Predictable pseudo-random generators utilized in authentication token routines." },
-                { title: "Sensitive Logging", severity: "Medium", desc: "Terminal debugging lines logging raw passwords, auth keys, or private payload logs." }
+                { title: "Hardcoded secrets", severity: "Critical", desc: "API keys, secret tokens, private credentials, and AWS access IDs embedded in scripts." },
+                { title: "SQL injection", severity: "Critical", desc: "Queries that combine user input through template strings or concatenation." },
+                { title: "Command injection", severity: "Critical", desc: "Shell commands that pass raw input into host runtime calls." },
+                { title: "Unsafe eval", severity: "High", desc: "Dynamic JavaScript or Python execution through eval-style APIs." },
+                { title: "Insecure CORS", severity: "High", desc: "Wildcard origin settings combined with credential access." },
+                { title: "Path traversal", severity: "High", desc: "File access that accepts user-controlled directory navigation." },
+                { title: "Weak token generation", severity: "Medium", desc: "Predictable random values used near auth token or reset flows." },
+                { title: "Sensitive logging", severity: "Medium", desc: "Log output that includes passwords, keys, tokens, or private payloads." }
               ].map((vuln, idx) => (
-                <div key={idx} className="p-6 border border-white/5 rounded-2xl bg-slate-950 hover:border-accent/15 hover:bg-accent/[0.02] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] text-left flex flex-col justify-between min-h-[180px]">
+                <div key={idx} className="p-6 border border-white/8 bg-slate-950 hover:border-accent/25 transition-colors duration-200 text-left flex flex-col justify-between min-h-[180px]">
                   <div className="flex items-center justify-between mb-4">
                     <span className={`px-2 py-0.5 rounded text-[9px] font-mono font-bold uppercase ${
                       vuln.severity === "Critical" ? "bg-red-500/10 text-red-400 border border-red-500/20" :
